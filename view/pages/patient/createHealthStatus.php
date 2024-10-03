@@ -5,67 +5,10 @@
 ?>
 
 <div class="container mt-5">
-<a href="index.php" class="btn btn-danger my-2"> Back </a>
     <h2 class="mb-4">Patient Information Form</h2>
+    <a href="patient_history.php?PatientID=<?php echo htmlspecialchars($patientID); ?>" class="btn btn-danger my-2"> Back </a>
+        
     <form action="" method="POST">
-        <!-- Patient Information Section -->
-        <div class="card mb-4">
-            <div class="card-header">Patient Information</div>
-            <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <label for="fname" class="form-label">First Name</label>
-                        <input type="text" class="form-control" id="fname" name="fname" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="mname" class="form-label">Middle Name</label>
-                        <input type="text" class="form-control" id="mname" name="mname" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="lname" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="lname" name="lname" required>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="birthdate" class="form-label">Birthdate</label>
-                        <input type="date" class="form-control" id="birthdate" name="birthdate" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="age" class="form-label">Age</label>
-                        <input type="number" class="form-control" id="age" name="age" required>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="address" class="form-label">Address</label>
-                    <input type="text" class="form-control" id="address" name="address" required>
-                </div>
-                <div class="mb-3">
-                    <label for="phone_number" class="form-label">Contact Number</label>
-                    <input type="number" class="form-control" id="phone_number" name="phone_number" required>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="civil_status" class="form-label">Civil Status</label>
-                        <select class="form-select" id="civil_status" name="civil_status" required>
-                            <option value="" selected disabled>Select Status</option>
-                            <option value="Single">Single</option>
-                            <option value="Married">Married</option>
-                            <option value="Divorced">Divorced</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="sex" class="form-label">Sex</label>
-                        <select class="form-select" id="sex" name="sex" required>
-                            <option value="" selected disabled>Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Vital Signs Section -->
         <div class="card mb-4">
             <div class="card-header">Vital Signs</div>
@@ -137,7 +80,7 @@
                 </div>
             </div>
         </div>
-        <input type="hidden" name="action" value="create">
+        <input type="hidden" name="action" value="createHealthStatus">
         <!-- Submit Button -->
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

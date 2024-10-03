@@ -8,7 +8,7 @@ if (!isset($_SESSION['fullname'])) {
 require_once('../../../services/DashboardServices.php');
 // Instantiate the class and get nursery owners
 $dashboardServices = new DashboardServices();
-$historys = $dashboardServices->getAllHistory();
+
 $adminAccs = $dashboardServices->getAdminAccount();
 
 

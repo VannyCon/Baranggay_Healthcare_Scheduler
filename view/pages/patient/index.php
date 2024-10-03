@@ -69,7 +69,7 @@
                             <td>
                                 <a type="button" class="btn btn-outline-info mx-0 mx-md-2 " href="update.php?PatientID=<?php echo htmlspecialchars($patient['patient_id']); ?>">Update</a>
                                 <button type="button" class="btn btn-outline-danger mt-1 mt-md-0" data-id="<?php echo htmlspecialchars($patient['patient_id']); ?>" onclick="setDeleteId(this)">Delete</button>
-                                <a type="button" class="btn btn-outline-primary mx-0 mx-md-2 " href="update.php?PatientID=<?php echo htmlspecialchars($patient['patient_id']); ?>">History</a>
+                                <a type="button" class="btn btn-outline-primary mx-0 mx-md-2 " href="patient_history.php?PatientID=<?php echo htmlspecialchars($patient['patient_id']); ?>">History</a>
                             </td>
 
                             

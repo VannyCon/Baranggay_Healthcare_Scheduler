@@ -2,33 +2,6 @@
 require_once("../../../connection/connection.php");
 
 class DashboardServices extends config {
-    //READ ALL THE PATIENT
-    public function getAllHistory() {
-        try {
-            $query = "SELECT 
-                            p.patient_id,
-                            CONCAT(p.fname, ' ', COALESCE(p.mname, ''), ' ', p.lname) AS fullname,
-                            p.phone_number,
-                            p.address,
-                            f.diagnosis,
-                            h.date AS history_date,
-                            h.created_by AS admin_fullname
-                        FROM 
-                            patient_info p
-                        JOIN 
-                            history_tbl h ON p.patient_id = h.patient_id_fk
-                        JOIN 
-                            findings_tbl f ON p.patient_id = f.patient_id_fk
-                        WHERE 
-                            1; -- You can add any conditions here
-                        ";
-            $stmt = $this->pdo->prepare($query); // Prepare the query
-            $stmt->execute(); // Execute the query
-            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all results
-        } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
-        }
-    }
 
     public function getAdminAccount() {
         try {
@@ -40,6 +13,10 @@ class DashboardServices extends config {
             echo "Error: " . $e->getMessage();
         }
     }
+
+
+
+
 
     // CREATE PATIENT
     public function create($fullname, $username, $password) {

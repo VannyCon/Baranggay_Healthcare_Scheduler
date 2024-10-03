@@ -9,15 +9,88 @@ require_once('../../../services/PatientServices.php');
 // Instantiate the class and get nursery owners
 $patientServices = new PatientServices();
 $patients = $patientServices->getAllPatient();
+$admin_name = $_SESSION['fullname'];
+
+
+if(isset($_GET['HistoryID'])){
+    // Sanitize the ID parameter
+    $historyID = $_GET['HistoryID'];
+    // Get specific patient history by ID
+    $specificHistory = $patientServices->getPatientHistoryById($historyID);
+}
 
 if(isset($_GET['PatientID'])){
     // Sanitize the ID parameter
     $patientID = $_GET['PatientID'];
     // Get specific patient details by ID
     $specificPatient = $patientServices->getAllPatientById($patientID);
+    $getHealthHistorys = $patientServices->getPatientHistory($patientID);
+
+     // Vital Signs
+     $blood_pressure = $patientServices->clean('blood_pressure', 'post');
+     $temperature = $patientServices->clean('temperature', 'post');
+     $pulse_rate = $patientServices->clean('pulse_rate', 'post');
+     $respiratory_rate = $patientServices->clean('respiratory_rate', 'post');
+     $weight = $patientServices->clean('weight', 'post');
+     $height = $patientServices->clean('height', 'post');
+
+     // Findings
+     $cho_schedule = $patientServices->clean('cho_schedule', 'post');
+     $name_of_attending_provider = $patientServices->clean('name_of_attending_provider', 'post');
+     $nature_of_visit = $patientServices->clean('nature_of_visit', 'post');
+     $type_of_consultation = $patientServices->clean('type_of_consultation', 'post');
+     $diagnosis = $patientServices->clean('diagnosis', 'post');
+     $medication = $patientServices->clean('medication', 'post');
+     $laboratory_findings = $patientServices->clean('laboratory_findings', 'post');
+
+
+    
+    //IF CREATE
+    if (isset($_POST['action'])) {
+
+       if($_POST['action'] == 'createHealthStatus'){
+            // Call create method to add the new patient
+            $status = $patientServices->createHealthStatus(
+                $patientID, $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
+                $cho_schedule, $name_of_attending_provider, $nature_of_visit, $type_of_consultation, 
+                $diagnosis, $medication, $laboratory_findings, $admin_name
+            );
+
+
+            if($status == true){
+                // Redirect to index.php
+                header("Location: done.php"); 
+                exit(); // Important to stop the script after the redirection
+            }else{
+                header("Location: create.php"); 
+            }
+       }else if($_POST['action'] == 'updateHealthStatus'){
+
+            if(isset($_GET['HistoryID'])){
+                $historyID = $_GET['HistoryID'];
+                // Call create method to add the new patient
+                $status = $patientServices->updateHealthStatus(
+                    $historyID, $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
+                    $cho_schedule, $name_of_attending_provider, $nature_of_visit, $type_of_consultation, 
+                    $diagnosis, $medication, $laboratory_findings, $admin_name
+                );
+            }
+            if($status == true){
+                // Redirect to index.php
+                header("Location: patient_history.php?PatientID=" . $patientID);
+
+                exit(); // Important to stop the script after the redirection
+            }else{
+                header("Location: create.php"); 
+            }
+   }
+       
+
+    //IF UPDATE
+    }
 }
 
-$admin_name = $_SESSION['fullname'];
+
 
 if (isset($_POST['action']) && $_POST['action'] == 'delete') {
     $patientID = $patientServices->clean('patient_id', 'post');
@@ -81,9 +154,6 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
          // Call create method to add the new patient
          $status = $patientServices->update(
             $patientID, $fname, $mname, $lname, $birthdate, $age, $address, $phone_number, $civil_status, $sex, 
-            $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
-            $cho_schedule, $name_of_attending_provider, $nature_of_visit, $type_of_consultation, 
-            $diagnosis, $medication, $laboratory_findings
         );
         if($status == true){
             // Redirect to index.php

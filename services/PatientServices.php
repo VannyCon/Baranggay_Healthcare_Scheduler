@@ -23,6 +23,26 @@ class PatientServices extends config {
         // Return the final patient ID with prefix
         return $prefix . strtoupper($patientID);
     }
+
+    function generatehistoryID() {
+        // Prefix (optional) for the patient ID (e.g., "patient-")
+        $prefix = "HISTORY-";
+        
+        // Get the current timestamp in microseconds
+        $timestamp = microtime(true);
+        
+        // Generate a random number to add more uniqueness
+        $randomNumber = mt_rand(100000, 999999);
+        
+        // Hash the timestamp and random number to create a unique identifier
+        $uniqueHash = hash('sha256', $timestamp . $randomNumber);
+        
+        // Take the first 12 characters of the hash (or any desired length)
+        $historyID = substr($uniqueHash, 0, 5);
+        
+        // Return the final patient ID with prefix
+        return $prefix . strtoupper($historyID);
+    }
     
     // Example usage
 
@@ -38,6 +58,98 @@ class PatientServices extends config {
             echo "Error: " . $e->getMessage();
         }
     }
+
+    public function getPatientHistoryById($historyID) {
+        try {
+             // Prepare the query
+        $query = "SELECT 
+                    v.id AS vital_id, 
+                    v.patient_id_fk, 
+                    v.history_id_fk, 
+                    v.blood_pressure, 
+                    v.temperature, 
+                    v.pulse_rate, 
+                    v.respiratory_rate, 
+                    v.weight, 
+                    v.height, 
+                    f.id AS findings_id, 
+                    f.cho_schedule, 
+                    f.name_of_attending_provider, 
+                    f.nature_of_visit, 
+                    f.type_of_consultation, 
+                    f.diagnosis, 
+                    f.medication, 
+                    f.laboratory_findings
+                FROM 
+                    vital_sign_tbl v
+                JOIN 
+                    findings_tbl f ON v.history_id_fk = f.history_id_fk
+                WHERE 
+                    v.history_id_fk = :historyID;
+                ";
+    
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindParam(':historyID', $historyID);
+            $stmt->execute();
+    
+            // Fetch the result
+            $histroryInfo = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+            // Check if patient information is found
+            if ($histroryInfo) {
+                return $histroryInfo;
+            } else {
+                return null; // No patient found with the given ID
+            }
+    
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    
+
+    public function getPatientHistory($patientID){
+        try {
+            $query = "SELECT 
+                        h.id AS history_id, 
+                        h.patient_id_fk, 
+                        h.history_ids, 
+                        h.date AS history_date, 
+                        h.created_by, 
+                        h.last_update,
+                        f.cho_schedule, 
+                        f.name_of_attending_provider, 
+                        f.nature_of_visit, 
+                        f.type_of_consultation, 
+                        f.diagnosis, 
+                        f.medication, 
+                        f.laboratory_findings, 
+                        v.blood_pressure, 
+                        v.temperature, 
+                        v.pulse_rate, 
+                        v.respiratory_rate, 
+                        v.weight, 
+                        v.height
+                    FROM 
+                        history_tbl h
+                    LEFT JOIN 
+                        findings_tbl f ON h.history_ids = f.history_id_fk
+                    LEFT JOIN 
+                        vital_sign_tbl v ON h.history_ids = v.history_id_fk
+                    WHERE 
+                        h.patient_id_fk = :patientID";
+                        
+            $stmt = $this->pdo->prepare($query); // Prepare the query
+            $stmt->bindParam(':patientID', $patientID); // Bind the patient ID
+            $stmt->execute(); // Execute the query
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all results
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }   
+    }
+    
 
     public function getAllPatientById($patientID) {
         try {
@@ -111,6 +223,8 @@ class PatientServices extends config {
             // Begin the transaction
             $this->pdo->beginTransaction();
 
+            $historyID = $this->generatehistoryID();
+
             // Generate patient ID (assuming this method exists in your class)
             $patientID = $this->generatePatientID();
 
@@ -132,46 +246,53 @@ class PatientServices extends config {
             // Execute the first query
             $stmt1->execute();
 
-            // Prepare the second query (vital_sign_tbl)
-            $vital_sign_query = "INSERT INTO `vital_sign_tbl`(`patient_id_fk`, `blood_pressure`, `temperature`, `pulse_rate`, `respiratory_rate`, `weight`, `height`)
-                                VALUES (:patientID, :blood_pressure, :temperature, :pulse_rate, :respiratory_rate, :weight, :height)";
-            $stmt2 = $this->pdo->prepare($vital_sign_query);
+
+                        // Prepare the fourth query (history_tbl)
+            $history_query = "INSERT INTO `history_tbl`(`patient_id_fk`, `history_ids`, `date`, `created_by`, `last_update`)
+            VALUES (:patientID, :historyID, NOW(), :admin_name, NOW())";
+            $stmt2 = $this->pdo->prepare($history_query);
+            $stmt2->bindParam(':historyID', $historyID);
             $stmt2->bindParam(':patientID', $patientID);
-            $stmt2->bindParam(':blood_pressure', $blood_pressure);
-            $stmt2->bindParam(':temperature', $temperature);
-            $stmt2->bindParam(':pulse_rate', $pulse_rate);
-            $stmt2->bindParam(':respiratory_rate', $respiratory_rate);
-            $stmt2->bindParam(':weight', $weight);
-            $stmt2->bindParam(':height', $height);
-
-            // Execute the second query
-            $stmt2->execute();
-
-            // Prepare the third query (findings_tbl)
-            $findings_query = "INSERT INTO `findings_tbl`(`patient_id_fk`, `cho_schedule`, `name_of_attending_provider`, `nature_of_visit`, `type_of_consultation`, `diagnosis`, `medication`, `laboratory_findings`)
-                            VALUES (:patientID, :cho_schedule, :name_of_attending_provider, :nature_of_visit, :type_of_consultation, :diagnosis, :medication, :laboratory_findings)";
-            $stmt3 = $this->pdo->prepare($findings_query);
-            $stmt3->bindParam(':patientID', $patientID);
-            $stmt3->bindParam(':cho_schedule', $cho_schedule);
-            $stmt3->bindParam(':name_of_attending_provider', $name_of_attending_provider);
-            $stmt3->bindParam(':nature_of_visit', $nature_of_visit);
-            $stmt3->bindParam(':type_of_consultation', $type_of_consultation);
-            $stmt3->bindParam(':diagnosis', $diagnosis);
-            $stmt3->bindParam(':medication', $medication);
-            $stmt3->bindParam(':laboratory_findings', $laboratory_findings);
-
-            // Execute the third query
-            $stmt3->execute();
-
-            // Prepare the fourth query (history_tbl)
-            $history_query = "INSERT INTO `history_tbl`(`patient_id_fk`, `date`, `created_by`, `last_update`)
-                            VALUES (:patientID, NOW(), :admin_name, NOW())";
-            $stmt4 = $this->pdo->prepare($history_query);
-            $stmt4->bindParam(':patientID', $patientID);
-            $stmt4->bindParam(':admin_name', $admin_name);
+            $stmt2->bindParam(':admin_name', $admin_name);
 
             // Execute the fourth query
+            $stmt2->execute();
+
+
+            // Prepare the second query (vital_sign_tbl)
+            $vital_sign_query = "INSERT INTO `vital_sign_tbl`(`patient_id_fk`, `history_id_fk`, `blood_pressure`, `temperature`, `pulse_rate`, `respiratory_rate`, `weight`, `height`)
+                                VALUES (:patientID, :historyID,  :blood_pressure, :temperature, :pulse_rate, :respiratory_rate, :weight, :height)";
+            $stmt3 = $this->pdo->prepare($vital_sign_query);
+            $stmt3->bindParam(':patientID', $patientID);
+            $stmt3->bindParam(':historyID', $historyID);
+            $stmt3->bindParam(':blood_pressure', $blood_pressure);
+            $stmt3->bindParam(':temperature', $temperature);
+            $stmt3->bindParam(':pulse_rate', $pulse_rate);
+            $stmt3->bindParam(':respiratory_rate', $respiratory_rate);
+            $stmt3->bindParam(':weight', $weight);
+            $stmt3->bindParam(':height', $height);
+
+            // Execute the second query
+            $stmt3->execute();
+
+            // Prepare the third query (findings_tbl)
+            $findings_query = "INSERT INTO `findings_tbl`(`patient_id_fk`,`history_id_fk`, `cho_schedule`, `name_of_attending_provider`, `nature_of_visit`, `type_of_consultation`, `diagnosis`, `medication`, `laboratory_findings`)
+                            VALUES (:patientID, :historyID, :cho_schedule, :name_of_attending_provider, :nature_of_visit, :type_of_consultation, :diagnosis, :medication, :laboratory_findings)";
+            $stmt4 = $this->pdo->prepare($findings_query);
+            $stmt4->bindParam(':patientID', $patientID);
+            $stmt4->bindParam(':historyID', $historyID);
+            $stmt4->bindParam(':cho_schedule', $cho_schedule);
+            $stmt4->bindParam(':name_of_attending_provider', $name_of_attending_provider);
+            $stmt4->bindParam(':nature_of_visit', $nature_of_visit);
+            $stmt4->bindParam(':type_of_consultation', $type_of_consultation);
+            $stmt4->bindParam(':diagnosis', $diagnosis);
+            $stmt4->bindParam(':medication', $medication);
+            $stmt4->bindParam(':laboratory_findings', $laboratory_findings);
+
+            // Execute the third query
             $stmt4->execute();
+
+
 
             // Commit the transaction
             $this->pdo->commit();
@@ -191,10 +312,7 @@ class PatientServices extends config {
     // UPDATE PATIENT
     public function update(
         $patientID, $fname, $mname, $lname, $birthdate, $age, $address, $phone_number, 
-        $civil_status, $sex, $blood_pressure, $temperature, $pulse_rate, 
-        $respiratory_rate, $weight, $height, $cho_schedule, $name_of_attending_provider, 
-        $nature_of_visit, $type_of_consultation, $diagnosis, $medication, 
-        $laboratory_findings
+        $civil_status, $sex
     ) {
         try {
             // Begin the transaction
@@ -223,52 +341,6 @@ class PatientServices extends config {
 
             // Execute the first query
             $stmt1->execute();
-
-            // Prepare the second query (vital_sign_tbl)
-            $vital_sign_query = "UPDATE `vital_sign_tbl` 
-                                SET `blood_pressure` = :blood_pressure, `temperature` = :temperature, 
-                                    `pulse_rate` = :pulse_rate, `respiratory_rate` = :respiratory_rate, 
-                                    `weight` = :weight, `height` = :height 
-                                WHERE `patient_id_fk` = :patientID";
-            $stmt2 = $this->pdo->prepare($vital_sign_query);
-            $stmt2->bindParam(':patientID', $patientID);
-            $stmt2->bindParam(':blood_pressure', $blood_pressure);
-            $stmt2->bindParam(':temperature', $temperature);
-            $stmt2->bindParam(':pulse_rate', $pulse_rate);
-            $stmt2->bindParam(':respiratory_rate', $respiratory_rate);
-            $stmt2->bindParam(':weight', $weight);
-            $stmt2->bindParam(':height', $height);
-
-            // Execute the second query
-            $stmt2->execute();
-
-            // Prepare the third query (findings_tbl)
-            $findings_query = "UPDATE `findings_tbl` 
-                            SET `cho_schedule` = :cho_schedule, `name_of_attending_provider` = :name_of_attending_provider, 
-                                `nature_of_visit` = :nature_of_visit, `type_of_consultation` = :type_of_consultation, 
-                                `diagnosis` = :diagnosis, `medication` = :medication, 
-                                `laboratory_findings` = :laboratory_findings 
-                            WHERE `patient_id_fk` = :patientID";
-            $stmt3 = $this->pdo->prepare($findings_query);
-            $stmt3->bindParam(':patientID', $patientID);
-            $stmt3->bindParam(':cho_schedule', $cho_schedule);
-            $stmt3->bindParam(':name_of_attending_provider', $name_of_attending_provider);
-            $stmt3->bindParam(':nature_of_visit', $nature_of_visit);
-            $stmt3->bindParam(':type_of_consultation', $type_of_consultation);
-            $stmt3->bindParam(':diagnosis', $diagnosis);
-            $stmt3->bindParam(':medication', $medication);
-            $stmt3->bindParam(':laboratory_findings', $laboratory_findings);
-
-            // Execute the third query
-            $stmt3->execute();
-
-            // Prepare the fourth query (history_tbl)
-            $history_query = "UPDATE `history_tbl` SET `last_update`= NOW() WHERE patient_id_fk=:patientID";
-            $stmt4 = $this->pdo->prepare($history_query);
-            $stmt4->bindParam(':patientID', $patientID);
-
-            // Execute the fourth query
-            $stmt4->execute();
 
             // Commit the transaction
             $this->pdo->commit();
@@ -312,7 +384,143 @@ class PatientServices extends config {
         }
     }
 
+    // CREATE PATIENT
+    public function createHealthStatus( 
+        $patientID, $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
+        $cho_schedule, $name_of_attending_provider, $nature_of_visit, $type_of_consultation, 
+        $diagnosis, $medication, $laboratory_findings, $admin_name
+    ) {
+        try {
+            // Begin the transaction
+            $this->pdo->beginTransaction();
+
+            $historyID = $this->generatehistoryID();
+
+                        // Prepare the fourth query (history_tbl)
+            $history_query = "INSERT INTO `history_tbl`(`patient_id_fk`, `history_ids`, `date`, `created_by`, `last_update`)
+            VALUES (:patientID, :historyID, NOW(), :admin_name, NOW())";
+            $stmt1 = $this->pdo->prepare($history_query);
+            $stmt1->bindParam(':historyID', $historyID);
+            $stmt1->bindParam(':patientID', $patientID);
+            $stmt1->bindParam(':admin_name', $admin_name);
+
+            // Execute the fourth query
+            $stmt1->execute();
+
+
+            // Prepare the second query (vital_sign_tbl)
+            $vital_sign_query = "INSERT INTO `vital_sign_tbl`(`patient_id_fk`, `history_id_fk`, `blood_pressure`, `temperature`, `pulse_rate`, `respiratory_rate`, `weight`, `height`)
+                                VALUES (:patientID, :historyID,  :blood_pressure, :temperature, :pulse_rate, :respiratory_rate, :weight, :height)";
+            $stmt2 = $this->pdo->prepare($vital_sign_query);
+            $stmt2->bindParam(':patientID', $patientID);
+            $stmt2->bindParam(':historyID', $historyID);
+            $stmt2->bindParam(':blood_pressure', $blood_pressure);
+            $stmt2->bindParam(':temperature', $temperature);
+            $stmt2->bindParam(':pulse_rate', $pulse_rate);
+            $stmt2->bindParam(':respiratory_rate', $respiratory_rate);
+            $stmt2->bindParam(':weight', $weight);
+            $stmt2->bindParam(':height', $height);
+
+            // Execute the second query
+            $stmt2->execute();
+
+            // Prepare the third query (findings_tbl)
+            $findings_query = "INSERT INTO `findings_tbl`(`patient_id_fk`,`history_id_fk`, `cho_schedule`, `name_of_attending_provider`, `nature_of_visit`, `type_of_consultation`, `diagnosis`, `medication`, `laboratory_findings`)
+                            VALUES (:patientID, :historyID, :cho_schedule, :name_of_attending_provider, :nature_of_visit, :type_of_consultation, :diagnosis, :medication, :laboratory_findings)";
+            $stmt3 = $this->pdo->prepare($findings_query);
+            $stmt3->bindParam(':patientID', $patientID);
+            $stmt3->bindParam(':historyID', $historyID);
+            $stmt3->bindParam(':cho_schedule', $cho_schedule);
+            $stmt3->bindParam(':name_of_attending_provider', $name_of_attending_provider);
+            $stmt3->bindParam(':nature_of_visit', $nature_of_visit);
+            $stmt3->bindParam(':type_of_consultation', $type_of_consultation);
+            $stmt3->bindParam(':diagnosis', $diagnosis);
+            $stmt3->bindParam(':medication', $medication);
+            $stmt3->bindParam(':laboratory_findings', $laboratory_findings);
+
+            // Execute the third query
+            $stmt3->execute();
+
+
+
+            // Commit the transaction
+            $this->pdo->commit();
+
+            // Return success
+            return true;
+
+        } catch (PDOException $e) {
+            // Rollback the transaction in case of error
+            $this->pdo->rollBack();
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
     
+    // CREATE PATIENT
+    public function updateHealthStatus( 
+        $historyID, $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
+        $cho_schedule, $name_of_attending_provider, $nature_of_visit, $type_of_consultation, 
+        $diagnosis, $medication, $laboratory_findings, $admin_name
+    ) {
+        try {
+            // Begin the transaction
+            $this->pdo->beginTransaction();
+
+                        // Prepare the fourth query (history_tbl)
+            $history_query = "UPDATE `history_tbl` SET`created_by`=:admin_name,`last_update`= NOW() WHERE history_ids = :historyID";
+            $stmt1 = $this->pdo->prepare($history_query);
+            $stmt1->bindParam(':historyID', $historyID);
+            $stmt1->bindParam(':admin_name', $admin_name);
+
+            // Execute the fourth query
+            $stmt1->execute();
+
+
+            // Prepare the second query (vital_sign_tbl)
+            $vital_sign_query = "UPDATE `vital_sign_tbl` SET `blood_pressure`=:blood_pressure,`temperature`=:temperature,`pulse_rate`=:pulse_rate,`respiratory_rate`=:respiratory_rate,`weight`=:weight,`height`=:height WHERE history_id_fk = :historyID";
+            $stmt2 = $this->pdo->prepare($vital_sign_query);
+            $stmt2->bindParam(':historyID', $historyID);
+            $stmt2->bindParam(':blood_pressure', $blood_pressure);
+            $stmt2->bindParam(':temperature', $temperature);
+            $stmt2->bindParam(':pulse_rate', $pulse_rate);
+            $stmt2->bindParam(':respiratory_rate', $respiratory_rate);
+            $stmt2->bindParam(':weight', $weight);
+            $stmt2->bindParam(':height', $height);
+
+            // Execute the second query
+            $stmt2->execute();
+
+            // Prepare the third query (findings_tbl)
+            $findings_query = "UPDATE `findings_tbl` SET `cho_schedule`=:cho_schedule,`name_of_attending_provider`=:name_of_attending_provider,`nature_of_visit`=:nature_of_visit,`type_of_consultation`=:type_of_consultation,`diagnosis`=:diagnosis,`medication`=:medication,`laboratory_findings`=:laboratory_findings WHERE history_id_fk = :historyID";
+            $stmt3 = $this->pdo->prepare($findings_query);
+            $stmt3->bindParam(':historyID', $historyID);
+            $stmt3->bindParam(':cho_schedule', $cho_schedule);
+            $stmt3->bindParam(':name_of_attending_provider', $name_of_attending_provider);
+            $stmt3->bindParam(':nature_of_visit', $nature_of_visit);
+            $stmt3->bindParam(':type_of_consultation', $type_of_consultation);
+            $stmt3->bindParam(':diagnosis', $diagnosis);
+            $stmt3->bindParam(':medication', $medication);
+            $stmt3->bindParam(':laboratory_findings', $laboratory_findings);
+
+            // Execute the third query
+            $stmt3->execute();
+
+
+
+            // Commit the transaction
+            $this->pdo->commit();
+
+            // Return success
+            return true;
+
+        } catch (PDOException $e) {
+            // Rollback the transaction in case of error
+            $this->pdo->rollBack();
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
 }
 
 
