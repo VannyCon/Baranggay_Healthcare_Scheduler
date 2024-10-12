@@ -87,12 +87,17 @@
                           <p class="text-success"><?php echo htmlspecialchars($getHealthHistory['type_of_consultation']); ?></p>
                           <label for="cho_schedule" class="form-label">Diagnosis</label>
                           <p class="text-success"><?php echo htmlspecialchars($getHealthHistory['diagnosis']); ?></p>
+                          <label for="cho_schedule" class="form-label">Medicaiton</label>
+                          <p class="text-success"><?php echo htmlspecialchars($getHealthHistory['medication']); ?></p>
+                          <label for="cho_schedule" class="form-label">Laboratory Findings</label>
+                          <p class="text-success"><?php echo htmlspecialchars($getHealthHistory['laboratory_findings']); ?></p>
+                      </div>
                       </div>
                   </div>
               </div>
               <div class="d-flex justify-content-between my-2">
                   <a class="btn btn-info mx-2 w-100" href="updateHealthStatus.php?HistoryID=<?php echo htmlspecialchars($getHealthHistory['history_ids']); ?>&PatientID=<?php echo htmlspecialchars($patientID); ?>">Update</a>
-                  <a class="btn btn-outline-primary mx-2 w-100" href="done.php">Print Referral</a>
+                  <a class="btn btn-outline-primary mx-2 w-100" href="done.php?Hid=<?php echo htmlspecialchars($getHealthHistory['history_ids']); ?>&Pid=<?php echo htmlspecialchars($patientID); ?>">Print Referral</a>
                   <a class="btn btn-primary mx-2 w-100" href="anotherAction.php">Remind SMS</a>
               </div>
 

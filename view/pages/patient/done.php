@@ -2,6 +2,12 @@
     $title = "Patient";
     include_once('../../components/header.php');
     include_once('../../../controller/PatientController.php');
+
+    if(isset($_GET['Hid']) && isset($_GET['Pid'])){
+        // Sanitize the ID parameter
+        $historyID = $_GET['Hid'];
+        $patientID = $_GET['Pid'];
+    }
 ?>
 <!-- Font Awesome CDN -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -21,7 +27,7 @@
                             <h5 class="mb-4">Successfully Created, Please Download the Refferal Form</h5>
 
                             <!-- Download Button -->
-                            <button type="button" class="btn btn-primary w-100">Download</button>
+                            <a type="button" href="download_pdf.php?Hid=<?php echo htmlspecialchars($historyID); ?>&Pid=<?php echo htmlspecialchars($patientID); ?>" class="btn btn-primary w-100">Download</a>
                         </div>
                     </div>
                 </div>

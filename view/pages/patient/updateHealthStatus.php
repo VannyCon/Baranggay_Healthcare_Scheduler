@@ -70,6 +70,14 @@
                     <label for="diagnosis" class="form-label">Diagnosis</label>
                     <textarea class="form-control" id="diagnosis" name="diagnosis" rows="3" required><?php echo htmlspecialchars($specificHistory['diagnosis']); ?></textarea>
                 </div>
+                <div class="mb-3">
+                    <label for="medication" class="form-label">Medication</label>
+                    <input type="text" class="form-control" value="<?php echo htmlspecialchars($specificHistory['medication']); ?>" id="medication" name="medication" required>
+                </div>
+                <div class="mb-3">
+                    <label for="laboratory_findings" class="form-label">Laboratory Findings</label>
+                    <textarea class="form-control" id="laboratory_findings" name="laboratory_findings" rows="3" required><?php echo htmlspecialchars($specificHistory['laboratory_findings']); ?></textarea>
+                </div>
             </div>
         </div>
         <input type="hidden" name="action" value="updateHealthStatus">

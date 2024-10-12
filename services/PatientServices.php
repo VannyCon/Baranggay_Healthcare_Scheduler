@@ -210,7 +210,65 @@ class PatientServices extends config {
             return false;
         }
     }
+    public function getSpecificPatientById($patientID) {
+        try {
+             // Prepare the query
+        $query = "SELECT 
+                        pi.fname,
+                        pi.mname,
+                        pi.lname,
+                        pi.birthdate,
+                        pi.age,
+                        pi.address,
+                        pi.phone_number,
+                        pi.civil_status,
+                        pi.sex,
+                        vs.blood_pressure,
+                        vs.temperature,
+                        vs.pulse_rate,
+                        vs.respiratory_rate,
+                        vs.weight,
+                        vs.height,
+                        f.cho_schedule,
+                        f.name_of_attending_provider,
+                        f.nature_of_visit,
+                        f.type_of_consultation,
+                        f.diagnosis,
+                        f.medication,
+                        f.laboratory_findings,
+                        h.date,
+                        h.created_by,
+                        h.last_update
+                    FROM 
+                        patient_info AS pi
+                    JOIN 
+                        vital_sign_tbl AS vs ON pi.patient_id = vs.patient_id_fk
+                    JOIN 
+                        findings_tbl AS f ON pi.patient_id = f.patient_id_fk
+                    JOIN 
+                        history_tbl AS h ON pi.patient_id = h.patient_id_fk
+                    WHERE 
+                        pi.patient_id = :patientID";
     
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindParam(':patientID', $patientID);
+            $stmt->execute();
+    
+            // Fetch the result
+            $patientInfo = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+            // Check if patient information is found
+            if ($patientInfo) {
+                return $patientInfo;
+            } else {
+                return null; // No patient found with the given ID
+            }
+    
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
 
     // CREATE PATIENT
     public function create(
