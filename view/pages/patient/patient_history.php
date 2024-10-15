@@ -2,6 +2,7 @@
   $title = "Nursery History";
   include_once('../../components/header.php');
   include_once('../../../controller/PatientController.php');
+      //////////////////////////////////// READ ALL THE PATIENT HISTORY /////////////////////////////////////
 ?>
 
 <!-- Delete Confirmation Modal -->
@@ -18,8 +19,9 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
         <form id="deleteForm" method="POST">
-          <input type="hidden" name="action" value="delete">
+          <input type="hidden" name="action" value="deleteHealthHistory">
           <input type="hidden" name="patient_id" id="patient_id">
+          <input type="hidden" name="history_id" id="history_id">
           <button type="submit" class="btn btn-outline-danger">Delete</button>
         </form>
       </div>
@@ -35,8 +37,6 @@
         <!-- Vital Signs Section -->
         <a href="index.php" class="btn btn-danger my-2"> Back </a>
         <div class="card mb-4">
-        
-        
               <div class="card-header">Patien Information</div>
               <div class="card-body">
                   <div class="row mb-3">
@@ -58,10 +58,19 @@
               <?php foreach ($getHealthHistorys as $getHealthHistory): ?>
           <div class="card mb-4">
             <div class="card-header">
+            <div class="d-flex justify-content-between">
+              <div> 
                 Date: <?php 
                     $date = new DateTime($getHealthHistory['history_date']);
                     echo htmlspecialchars($date->format('F j, Y g:i A')); 
                 ?>
+              </div>
+              <div>
+                <button type="button" class="btn btn-outline-danger mt-1 mt-md-0" data-id="<?php echo htmlspecialchars($getHealthHistory['history_ids']); ?>" data-patient_id="<?php echo htmlspecialchars($patientID); ?>" onclick="setHealthHistoryDeleteId(this)">Delete</button>
+              </div>
+
+            </div>
+               
             </div>
 
               <div class="card-body">

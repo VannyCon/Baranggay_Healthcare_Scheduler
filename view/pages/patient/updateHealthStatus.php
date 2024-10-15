@@ -2,6 +2,7 @@
     $title = "Patient";
     include_once('../../components/header.php');
     include_once('../../../controller/PatientController.php');
+        //////////////////////////////////// UPDATE HEALTH HISTORY NOT INCLUDE PATIENT INFO /////////////////////////////////////
 ?>
 
 <div class="container mt-5">

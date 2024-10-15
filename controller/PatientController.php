@@ -1,4 +1,5 @@
 <?php
+/////////////////////////// THIS PART IS FOR ADMIN ACCOUNT CONTROLLER ///////////////////////////////
 session_start();
 // Redirect to login if not logged in
 if (!isset($_SESSION['fullname'])) {
@@ -9,21 +10,47 @@ require_once('../../../services/PatientServices.php');
 // Instantiate the class and get nursery owners
 $patientServices = new PatientServices();
 $patients = $patientServices->getAllPatient();
+// THIS PART USE TO TRACE WHO THE ADMIN CREATE THE PATIENT INFO
 $admin_name = $_SESSION['fullname'];
 
 
+// THIS PART USE TO GET THE USER HISTORY (VITAL SIGNS, FINDINGS)
 if(isset($_GET['HistoryID'])){
     // Sanitize the ID parameter
     $historyID = $_GET['HistoryID'];
     // Get specific patient history by ID
     $specificHistory = $patientServices->getPatientHistoryById($historyID);
+
 }
 
+
+// TO DELETE PATIENT HEALTH HISTORY
+if (isset($_POST['action']) && $_POST['action'] == 'deleteHealthHistory') {
+    $historyID = $patientServices->clean('history_id', 'post');
+    $patientID = $patientServices->clean('patient_id', 'post');
+    $result = $patientServices->deleteHealthHistory($historyID);
+    
+    
+    if ($result) {
+        header("Location: patient_history.php?PatientID=$patientID");
+        exit();
+    } else {
+        error_log("Deletion failed for ID: $id");
+         header("Location: patient_history.php?PatientID=$patientID");
+        exit();
+    }
+}
+
+
+// THIS PART USE TO CRUD VITAL SIGNS, FINDINGS IT SHOULD HAVE A GET PatientID
 if(isset($_GET['PatientID'])){
     // Sanitize the ID parameter
     $patientID = $_GET['PatientID'];
+
+
     // Get specific patient details by ID
     $specificPatient = $patientServices->getAllPatientById($patientID);
+    // Get specific patient health history by patient ID
     $getHealthHistorys = $patientServices->getPatientHistory($patientID);
 
      // Vital Signs
@@ -45,7 +72,7 @@ if(isset($_GET['PatientID'])){
 
 
     
-    //IF CREATE
+    //IF CREATE HEALTH HISTORY
     if (isset($_POST['action'])) {
 
        if($_POST['action'] == 'createHealthStatus'){
@@ -55,15 +82,14 @@ if(isset($_GET['PatientID'])){
                 $cho_schedule, $name_of_attending_provider, $nature_of_visit, $type_of_consultation, 
                 $diagnosis, $medication, $laboratory_findings, $admin_name
             );
-
-
             if($status == true){
                 // Redirect to index.php
-                header("Location: done.php"); 
+                header("Location: patient_history.php?PatientID=" . $patientID); 
                 exit(); // Important to stop the script after the redirection
             }else{
                 header("Location: create.php"); 
             }
+       // IF UPDATE HEALTH HISTORY
        }else if($_POST['action'] == 'updateHealthStatus'){
 
             if(isset($_GET['HistoryID'])){
@@ -83,15 +109,14 @@ if(isset($_GET['PatientID'])){
             }else{
                 header("Location: create.php"); 
             }
-   }
-       
+       }
 
     //IF UPDATE
     }
 }
 
 
-
+// TO DELETE PATIENT INFORMATION
 if (isset($_POST['action']) && $_POST['action'] == 'delete') {
     $patientID = $patientServices->clean('patient_id', 'post');
     $result = $patientServices->delete($patientID);
@@ -103,6 +128,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
         error_log("Deletion failed for ID: $id");
         header("Location: index.php");
     }
+// THIS PART NEED ACTION THEN PERFORM EITHER CREATE AND UPDATE
 }else if (isset($_POST['action'])) {
    // Clean input data
     $fname = $patientServices->clean('fname', 'post');
@@ -141,13 +167,19 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
             $cho_schedule, $name_of_attending_provider, $nature_of_visit, $type_of_consultation, 
             $diagnosis, $medication, $laboratory_findings, $admin_name
         );
-        if($status == true){
-            // Redirect to index.php
-            header("Location: done.php"); 
-            exit(); // Important to stop the script after the redirection
-        }else{
-            header("Location: create.php"); 
+        if ($status['status'] === true) {
+            // Redirect to done.php with query parameters
+            $historyID = $status['historyID'];
+            $patientID = $status['patientID'];
+        
+            header("Location: done.php?Hid=$historyID&Pid=$patientID");
+            exit(); // Stop further execution after redirection
+        } else {
+            // Redirect to create.php on failure
+            header("Location: create.php");
+            exit(); // Ensure the script stops here too
         }
+        
 
     //IF UPDATE
     }else if($_POST['action'] == 'update' ) { 

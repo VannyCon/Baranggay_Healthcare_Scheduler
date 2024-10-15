@@ -2,6 +2,8 @@
     $title = "Patient";
     include_once('../../components/header.php');
     include_once('../../../controller/PatientController.php');
+
+        //////////////////////////////////// CREATE PATIENT INFO AND HEALTH HISTORY  /////////////////////////////////////
 ?>
 
 <div class="container mt-5">

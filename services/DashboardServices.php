@@ -3,9 +3,10 @@ require_once("../../../connection/connection.php");
 
 class DashboardServices extends config {
 
+    // READ ALL ADMIN ACCOUNTS
     public function getAdminAccount() {
         try {
-            $query = "SELECT `id`, `fullname`, `username`, `password` FROM `admin_access` WHERE 1";
+            $query = "SELECT `id`, `fullname`, `username`, `password` FROM `tbl_admin_access` WHERE 1";
             $stmt = $this->pdo->prepare($query); // Prepare the query
             $stmt->execute(); // Execute the query
             return $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all results
@@ -18,14 +19,14 @@ class DashboardServices extends config {
 
 
 
-    // CREATE PATIENT
+    // CREATE ADMIN ACCOUNT
     public function create($fullname, $username, $password) {
         try {
             // Begin the transaction
             $this->pdo->beginTransaction();
 
             // Prepare the first query (patient_info)
-            $createAdmin = "INSERT INTO `admin_access`(`fullname`, `username`, `password`) VALUES (:fullname, :username, :password)";
+            $createAdmin = "INSERT INTO `tbl_admin_access`(`fullname`, `username`, `password`) VALUES (:fullname, :username, :password)";
             $stmt1 = $this->pdo->prepare($createAdmin);
             $stmt1->bindParam(':fullname', $fullname);
             $stmt1->bindParam(':username', $username);
@@ -48,7 +49,7 @@ class DashboardServices extends config {
     }
 
 
-    // UPDATE PATIENT
+    // UPDATE ADMIN ACCOUNT
     public function update($id, $fullname, $username, $password) {
         try {
             // Begin the transaction
@@ -57,7 +58,7 @@ class DashboardServices extends config {
             
 
             // Prepare the first query (patient_info)
-            $updateAdmin = "UPDATE `admin_access` SET `fullname`=:fullname,`username`=:username,`password`=:password WHERE id=:id";
+            $updateAdmin = "UPDATE `tbl_admin_access` SET `fullname`=:fullname,`username`=:username,`password`=:password WHERE id=:id";
             $stmt1 = $this->pdo->prepare($updateAdmin);
             $stmt1->bindParam(':fullname', $fullname);
             $stmt1->bindParam(':username', $username);
@@ -80,14 +81,14 @@ class DashboardServices extends config {
         }
     }
 
-    // DELETE PATIENT
+    // DELETE ADMIN ACCOUNT
     public function delete($id) {
         try {
             // Begin the transaction
             $this->pdo->beginTransaction();
 
             // Prepare the delete query for patient_info
-            $deletAdminAcc = "DELETE FROM `admin_access` WHERE id= :id";
+            $deletAdminAcc = "DELETE FROM `tbl_admin_access` WHERE id= :id";
             $stmt = $this->pdo->prepare($deletAdminAcc);
             $stmt->bindParam(':id', $id);
 

@@ -7,9 +7,17 @@
   <p class="text-center text-body-secondary">© 2024</p>
 </footer>
 <script>
+    // USE IN MODAL
     function setDeleteId(button) {
         var id = button.getAttribute('data-id');
         document.getElementById('patient_id').value = id;
+        $('#deleteModal').modal('show');
+    }
+    function setHealthHistoryDeleteId(button) {
+        var id = button.getAttribute('data-id');
+        var patient_id = button.getAttribute('data-patient_id');
+        document.getElementById('history_id').value = id;
+        document.getElementById('patient_id').value = patient_id;
         $('#deleteModal').modal('show');
     }
 
@@ -20,6 +28,7 @@
         $('#deleteAdminAccModal').modal('show');  // Show the modal
     }
 
+    // USE IN SEARCH BAR
     document.getElementById('searchInput').addEventListener('keyup', function() {
         const searchTerm = this.value.toLowerCase();
         const rows = document.querySelectorAll('#nurseryOwnersTable tbody tr');

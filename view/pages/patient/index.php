@@ -2,6 +2,7 @@
   $title = "Nursery";
   include_once('../../components/header.php');
   include_once('../../../controller/PatientController.php');
+      //////////////////////////////////// DISPLAY ALL THE PATIENTS /////////////////////////////////////
 ?>
 
 <!-- Delete Confirmation Modal -->

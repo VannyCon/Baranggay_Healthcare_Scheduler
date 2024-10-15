@@ -1,4 +1,5 @@
 <?php 
+/////////////////////////// THIS PART IS FOR LOGOUT ///////////////////////////////
     require_once('../../../connection/connection.php');
     $access = new config();
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] == 'logout') {

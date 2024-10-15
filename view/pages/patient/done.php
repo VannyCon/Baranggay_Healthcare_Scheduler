@@ -7,7 +7,12 @@
         // Sanitize the ID parameter
         $historyID = $_GET['Hid'];
         $patientID = $_GET['Pid'];
+    }else{
+        header('Location: index.php');
+        exit();
     }
+
+        //////////////////////////////////// SHOW DOWNLOAD BUTTON TO CREATE REFFERAL DOCS /////////////////////////////////////
 ?>
 <!-- Font Awesome CDN -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -28,6 +33,7 @@
 
                             <!-- Download Button -->
                             <a type="button" href="download_pdf.php?Hid=<?php echo htmlspecialchars($historyID); ?>&Pid=<?php echo htmlspecialchars($patientID); ?>" class="btn btn-primary w-100">Download</a>
+                            <a type="button" href="index.php" class="text-decoration-none my-2 text-danger">Go back</a>
                         </div>
                     </div>
                 </div>

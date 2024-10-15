@@ -2,6 +2,9 @@
 $title = "Nursery";
 include_once('../../components/header.php');
 include_once('../../../controller/DashboardController.php');
+
+// Patient INfo
+$adminAccs = $dashboardServices->getAdminAccount();
 ?>
 
 <!-- Create Admin Modal -->

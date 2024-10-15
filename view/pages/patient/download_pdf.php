@@ -2,6 +2,8 @@
 require_once('../../../vendor/autoload.php'); // Load PHPWord
 require_once('../../../services/PatientServices.php'); // Load services
 
+    //////////////////////////////////// GENARATE REFFERAL DOCS NEED TO ARGUMENT WHICH HISTORYID AND PATIENTID /////////////////////////////////////
+
 use PhpOffice\PhpWord\PhpWord;
 
 // Check if required parameters are set

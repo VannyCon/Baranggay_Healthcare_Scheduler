@@ -11,7 +11,7 @@ class config {
         require_once('config.php');
         return FILEPATH;
     }
-
+    // Use to make connection to database
     public function __construct(){
         require_once('config.php'); // Include config.php for DB constants
         $dsn = "mysql:host=".H.";dbname=".DB; // Corrected concatenation
@@ -25,7 +25,7 @@ class config {
             die("Connection failed: " . $e->getMessage());
         }
     }
-    
+    //This Santize the input of user to prevent scripting
     function clean($data, $type) {
         $data = trim($data);
         if($type=="post") {
@@ -41,6 +41,7 @@ class config {
         }
         return $data;
     }
+    // This function use to clear all the session where use to access the admin
     function logout(){
         session_start();
         // Unset all session variables

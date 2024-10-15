@@ -7,6 +7,8 @@
         header("Location: ../../../index.php");
         exit();
     }
+
+        //////////////////////////////////// UPDATE PATIENT INFO ONLY NOT INCLUDE THE PATIENT HISTORY /////////////////////////////////////
 ?>
 <div class="container mt-5">
 <a href="index.php" class="btn btn-danger my-2"> Back </a>
