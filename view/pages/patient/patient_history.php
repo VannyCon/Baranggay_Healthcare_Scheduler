@@ -107,7 +107,7 @@
               <div class="d-flex justify-content-between my-2">
                   <a class="btn btn-info mx-2 w-100" href="updateHealthStatus.php?HistoryID=<?php echo htmlspecialchars($getHealthHistory['history_ids']); ?>&PatientID=<?php echo htmlspecialchars($patientID); ?>">Update</a>
                   <a class="btn btn-outline-primary mx-2 w-100" href="done.php?Hid=<?php echo htmlspecialchars($getHealthHistory['history_ids']); ?>&Pid=<?php echo htmlspecialchars($patientID); ?>">Print Referral</a>
-                  <a class="btn btn-primary mx-2 w-100" href="anotherAction.php">Remind SMS</a>
+                  <a class="btn btn-primary mx-2 w-100" href="sms.php?Hid=<?php echo htmlspecialchars($getHealthHistory['history_ids']); ?>&Pid=<?php echo htmlspecialchars($patientID); ?>">Remind SMS</a>
               </div>
 
 
