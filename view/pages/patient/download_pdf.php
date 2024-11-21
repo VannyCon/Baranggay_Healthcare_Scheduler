@@ -69,7 +69,7 @@ if (isset($_GET['Hid']) && isset($_GET['Pid'])) {
         $textRun->addText("{$patientInfo['fname']} ", ['underline' => 'single', 'size' => 11]);
         $textRun->addText("{$patientInfo['mname']} ", ['underline' => 'single', 'size' => 11]);
         $textRun->addText("{$patientInfo['lname']} ", ['underline' => 'single', 'size' => 11]);
-        $textRun->addText(str_repeat("_", 20), ['underline' => 'single', 'size' => 11]);
+        $textRun->addText(str_repeat("_", 15), ['underline' => 'single', 'size' => 11]);
         $textRun->addText(" DATE: ", ['size' => 11]);
         $textRun->addText("{$formattedDate}", ['underline' => 'single', 'size' => 11]);
 
@@ -96,9 +96,6 @@ if (isset($_GET['Hid']) && isset($_GET['Pid'])) {
         $textRun = $section->addTextRun();
         $textRun->addText("CONTACT NUMBER: ", ['size' => 11]);
         $textRun->addText("{$patientInfo['phone_number']}\n", ['underline' => 'single', 'size' => 11]);
-
-        // Add space before the Vital Signs table
-        $section->addTextBreak(1); // Adds a line break for spacing
 
         // Create a new table for Vital Signs
         $tableStyle = [
@@ -147,7 +144,7 @@ if (isset($_GET['Hid']) && isset($_GET['Pid'])) {
 
 
         // Findings Section with Font Size 11
-        $section->addTextBreak(1);
+
         $section->addText("Findings", ['bold' => true, 'size' => 11]);
 
         $textRun = $section->addTextRun();
@@ -177,6 +174,19 @@ if (isset($_GET['Hid']) && isset($_GET['Pid'])) {
         $textRun = $section->addTextRun();
         $textRun->addText("Laboratory Findings: ", ['size' => 11]);
         $textRun->addText("_{$historyInfo['laboratory_findings']}______", ['underline' => 'single', 'size' => 11]);
+
+        $section->addTextBreak(1.5);
+        // Create a table for the signature
+        $table = $section->addTable();
+        $table->addRow();
+
+        // Add an empty cell to the left (to push the signature text to the right)
+        $cell1 = $table->addCell(10000); // Adjust the width to push the content to the right
+
+        // Add the signature text at the lower-right corner
+        $cell1->addText('________________________________________', ['size' => 11], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::RIGHT]);
+        $cell1->addText('Baranggay Official Signature', ['bold' => true, 'size' => 11], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::RIGHT]);
+
 
         // Save the document
         $fileName = "Health_Referral_{$patientInfo['lname']}.docx";
