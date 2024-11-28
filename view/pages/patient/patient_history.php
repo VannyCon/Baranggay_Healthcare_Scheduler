@@ -38,31 +38,31 @@ if (session_status() === PHP_SESSION_NONE) {
   <div class="card p-4">
     <div class="table-responsive">
       <script>
-    var messageText = "<?= $_SESSION['status'] ?? ''; ?>";
-    if (messageText) {
-        Swal.fire({
-            title: "Sent Successfully",
-            text: messageText,
-            icon: "success"
-        });
-        <?php unset($_SESSION['status']); ?>
-    }
+          var messageText = "<?= $_SESSION['status'] ?? ''; ?>";
+          if (messageText) {
+              Swal.fire({
+                  title: "Sent Successfully",
+                  text: messageText,
+                  icon: "success"
+              });
+              <?php unset($_SESSION['status']); ?>
+          }
 
-    var errorText = "<?= $_SESSION['error'] ?? ''; ?>";
-    if (errorText) {
-        Swal.fire({
-            title: "Error!",
-            text: errorText,
-            icon: "error"
-        });
-        <?php unset($_SESSION['error']); ?>
-    }
-</script>
+          var errorText = "<?= $_SESSION['error'] ?? ''; ?>";
+          if (errorText) {
+              Swal.fire({
+                  title: "Error!",
+                  text: errorText,
+                  icon: "error"
+              });
+              <?php unset($_SESSION['error']); ?>
+          }
+      </script>
 
       <!-- Vital Signs Section -->
       <a href="index.php" class="btn btn-danger my-2"> Back </a>
       <div class="card mb-4">
-        <div class="card-header">Patien Information</div>
+        <div class="card-header">Patient Information</div>
         <div class="card-body">
           <div class="row mb-3">
             <div class="col-md-12">
@@ -70,6 +70,24 @@ if (session_status() === PHP_SESSION_NONE) {
               <p class="text-success"><span class="text-dark">Contact Number : </span><?php echo htmlspecialchars($specificPatient['phone_number']); ?></p>
               <p class="text-success"><span class="text-dark">Address : </span><?php echo htmlspecialchars($specificPatient['address']); ?></p>
               <p class="text-success"><span class="text-dark">Birthdate: </span><?php $formattedBirthdate = date('F d, Y', strtotime($specificPatient['birthdate'])); echo htmlspecialchars($formattedBirthdate);?></p>
+              <?php
+                // Assume $specificPatient['birthdate'] contains the birthdate in 'YYYY-MM-DD' format
+                $birthdate = $specificPatient['birthdate']; // E.g., '1990-05-15'
+
+                // Convert the birthdate string into a DateTime object
+                $birthdateObject = new DateTime($birthdate);
+                // Get the current date
+                $today = new DateTime('today');
+
+                // Calculate the age
+                $age = $birthdateObject->diff($today)->y;
+
+                // Display the birthdate and age
+                ?>
+
+              <p class="text-success">
+                  <span class="text-dark">Age: </span><?php echo htmlspecialchars($age); ?>
+              </p>
               <p class="text-success"><span class="text-dark">Civil Status : </span><?php echo htmlspecialchars($specificPatient['civil_status']); ?></p>
               <p class="text-success"><span class="text-dark">Sex : </span><?php echo htmlspecialchars($specificPatient['sex']); ?></p>
             </div>
@@ -99,6 +117,39 @@ if (session_status() === PHP_SESSION_NONE) {
             </div>
 
             <div class="card-body">
+            <?php
+              // Mapping abbreviations to their meanings
+              $barangayServices = [
+                  "DP" => "Dengue Prevention and Management",
+                  "PR" => "Prenatal Referral",
+                  "IP" => "Immunization Programs",
+                  "MCH" => "Maternal and Child Health Services",
+                  "NP" => "Nutrition Programs",
+                  "HE" => "Health Education",
+                  "BMC" => "Basic Medical Consultations",
+                  "EHC" => "Environmental Health Campaigns",
+                  "TBC" => "Tuberculosis Control",
+                  "EFA" => "Emergency and First Aid Services",
+                  "LP" => "Livelihood Programs",
+                  "DPD" => "Disaster Preparedness",
+                  "CBR" => "Community-Based Rehabilitation",
+                  "SCP" => "Senior Citizen and PWD Assistance",
+                  "MHS" => "Mental Health Support",
+                  "CPS" => "Child Protection Services"
+              ];
+
+              // Get the abbreviation from the specific patient data
+              $refferalForAbbreviation = $getHealthHistory['refferal_for'];
+
+              // Get the full meaning from the mapping
+              $refferalForMeaning = isset($barangayServices[$refferalForAbbreviation]) 
+                  ? $barangayServices[$refferalForAbbreviation] 
+                  : "Unknown Service";
+
+              ?>
+              <h5><strong> Refferal for:</strong> <span class="text-info"><?php echo htmlspecialchars($refferalForMeaning); ?></span></h5>
+
+              <br>
               <div class="row mb-3">
                 <div class="col-md-6">
                   <p><strong>Vital Signs</strong></p>
@@ -131,13 +182,41 @@ if (session_status() === PHP_SESSION_NONE) {
           </div>
 
           <div class="d-flex justify-content-between my-2">
-            <a class="btn btn-info mx-2 w-100" href="updateHealthStatus.php?HistoryID=<?php echo htmlspecialchars($getHealthHistory['history_ids']); ?>&PatientID=<?php echo htmlspecialchars($patientID); ?>">Update</a>
-            <a class="btn btn-outline-primary mx-2 w-100" href="done.php?Hid=<?php echo htmlspecialchars($getHealthHistory['history_ids']); ?>&Pid=<?php echo htmlspecialchars($patientID); ?>">Print Referral</a>
-            <a class="btn btn-primary mx-2 w-100" href="#" data-bs-toggle="modal" data-bs-target="#smsModal"
-              data-history-id="<?php echo htmlspecialchars($getHealthHistory['history_ids']); ?>"
-              data-patient-id="<?php echo htmlspecialchars($patientID); ?>"
-              onclick="setSmsConfirmation(this)">Remind SMS</a>
-          </div>
+              <div class="row w-100">
+                <!-- Update Button / Create Health Status Button -->
+                <div class="col-md-4 mb-2">
+                  <?php
+                  $createdHistory = $getHealthHistory['history_date']; // E.g., '1990-05-15'
+
+                  // Convert the history_date string into a DateTime object
+                  $historyDate = new DateTime($createdHistory);
+                  // Get the current date
+                  $today = new DateTime('today');
+
+                  // Compare dates by formatting them as 'Y-m-d' to ensure only the date part is compared
+                  if ($historyDate->format('Y-m-d') === $today->format('Y-m-d')) {
+                      echo "<a class='btn btn-info w-100' href='updateHealthStatus.php?HistoryID=" . htmlspecialchars($getHealthHistory['history_ids']) . "&PatientID=" . htmlspecialchars($patientID) . "'>Update</a>";
+                  } else {
+                      echo "<a class='btn btn-warning w-100' href='createHealthStatus.php?PatientID=" . htmlspecialchars($patientID) . "'>Create Health Status</a>";
+                  }
+                  ?>
+                </div>
+
+                <!-- Print Referral Button -->
+                <div class="col-md-4 mb-2">
+                  <a class="btn btn-outline-primary w-100" href="done.php?Hid=<?php echo htmlspecialchars($getHealthHistory['history_ids']); ?>&Pid=<?php echo htmlspecialchars($patientID); ?>">Print Referral</a>
+                </div>
+
+                <!-- Remind SMS Button -->
+                <div class="col-md-4 mb-2">
+                  <a class="btn btn-primary w-100" href="#" data-bs-toggle="modal" data-bs-target="#smsModal"
+                    data-history-id="<?php echo htmlspecialchars($getHealthHistory['history_ids']); ?>"
+                    data-patient-id="<?php echo htmlspecialchars($patientID); ?>"
+                    onclick="setSmsConfirmation(this)">Remind SMS</a>
+                </div>
+              </div>
+            </div>
+
           <script>
             function setSmsConfirmation(button) {
               var historyID = button.getAttribute('data-history-id');
@@ -149,7 +228,7 @@ if (session_status() === PHP_SESSION_NONE) {
             }
           </script>
 
-    </div>
+
   <?php endforeach; ?>
 <?php else: ?>
   <p>No Health History found. </p>

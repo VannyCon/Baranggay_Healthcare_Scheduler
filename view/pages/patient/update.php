@@ -43,7 +43,38 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="address" class="form-label">Address</label>
+                    <label for="purok" class="form-label">Purok</label>
+                    <select class="form-select" name="purok" id="Purok" required>
+                        <option value="" disabled selected>Select a Purok</option>
+                        
+                        <option value="Prk. Napungalan 1 Brgy. JonobJonob Escalante City Negros Occidental" <?php echo ($specificPatient['purok'] == 'Prk. Napungalan 1 Brgy. JonobJonob Escalante City Negros Occidental') ? 'selected' : ''; ?>>
+                            Prk. Napungalan 1 Brgy. JonobJonob Escalante City Negros Occidental
+                        </option>
+
+                        <option value="Prk. Napungalan 2 Brgy. JonobJonob Escalante City Negros Occidental" <?php echo ($specificPatient['purok'] == 'Prk. Napungalan 2 Brgy. JonobJonob Escalante City Negros Occidental') ? 'selected' : ''; ?>>
+                            Prk. Napungalan 2 Brgy. JonobJonob Escalante City Negros Occidental
+                        </option>
+
+                        <option value="So. Golden Rosary Brgy. JonobJonob Escalante City Negros Occidental" <?php echo ($specificPatient['purok'] == 'So. Golden Rosary Brgy. JonobJonob Escalante City Negros Occidental') ? 'selected' : ''; ?>>
+                            So. Golden Rosary Brgy. JonobJonob Escalante City Negros Occidental
+                        </option>
+
+                        <option value="Habitat Homes Brgy. JonobJonob Escalante City Negros Occidental" <?php echo ($specificPatient['purok'] == 'Habitat Homes Brgy. JonobJonob Escalante City Negros Occidental') ? 'selected' : ''; ?>>
+                            Habitat Homes Brgy. JonobJonob Escalante City Negros Occidental
+                        </option>
+
+                        <option value="Prk. Mahogany Brgy. JonobJonob Escalante City Negros Occidental" <?php echo ($specificPatient['purok'] == 'Prk. Mahogany Brgy. JonobJonob Escalante City Negros Occidental') ? 'selected' : ''; ?>>
+                            Prk. Mahogany Brgy. JonobJonob Escalante City Negros Occidental
+                        </option>
+
+                        <option value="Prk. Sambag Brgy. JonobJonob Escalante City Negros Occidental" <?php echo ($specificPatient['purok'] == 'Prk. Sambag Brgy. JonobJonob Escalante City Negros Occidental') ? 'selected' : ''; ?>>
+                            Prk. Sambag Brgy. JonobJonob Escalante City Negros Occidental
+                        </option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address" class="form-label">Street</label>
                     <input type="text" class="form-control" value="<?php echo htmlspecialchars($specificPatient['address']); ?>" id="address" name="address" required>
                 </div>
                 <div class="mb-3">

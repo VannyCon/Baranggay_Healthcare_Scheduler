@@ -21,6 +21,21 @@ if (isset($_GET['Hid']) && isset($_GET['Pid'])) {
     $date = new DateTime($originalDate);
     $formattedDate = $date->format('F d, Y'); 
 
+
+    // Assume $specificPatient['birthdate'] contains the birthdate in 'YYYY-MM-DD' format
+    $birthdate = $patientInfo['birthdate']; // E.g., '1990-05-15'
+
+    // Convert the birthdate string into a DateTime object
+    $birthdateObject = new DateTime($birthdate);
+    // Get the current date
+    $today = new DateTime('today');
+
+    // Calculate the age
+    $age = $birthdateObject->diff($today)->y;
+
+    // Display the birthdate and age
+
+
     if ($patientInfo && $historyInfo) {
         // Initialize PHPWord and create a new document
         $phpWord = new PhpWord();
@@ -61,7 +76,43 @@ if (isset($_GET['Hid']) && isset($_GET['Pid'])) {
         );
 
         // Add some space below the logo section before the patient details
-        $section->addTextBreak(2); // Adds two empty lines
+        $section->addTextBreak(1); // Adds two empty lines
+
+        
+        // Mapping abbreviations to their meanings
+        $barangayServices = [
+            "DP" => "Dengue Prevention and Management",
+            "PR" => "Prenatal Referral",
+            "IP" => "Immunization Programs",
+            "MCH" => "Maternal and Child Health Services",
+            "NP" => "Nutrition Programs",
+            "HE" => "Health Education",
+            "BMC" => "Basic Medical Consultations",
+            "EHC" => "Environmental Health Campaigns",
+            "TBC" => "Tuberculosis Control",
+            "EFA" => "Emergency and First Aid Services",
+            "LP" => "Livelihood Programs",
+            "DPD" => "Disaster Preparedness",
+            "CBR" => "Community-Based Rehabilitation",
+            "SCP" => "Senior Citizen and PWD Assistance",
+            "MHS" => "Mental Health Support",
+            "CPS" => "Child Protection Services"
+        ];
+
+        // Get the abbreviation from the specific patient data
+        $refferalForAbbreviation = $patientInfo['refferal_for'];
+
+        // Get the full meaning from the mapping
+        $refferalForMeaning = isset($barangayServices[$refferalForAbbreviation]) 
+            ? $barangayServices[$refferalForAbbreviation] 
+            : "Unknown Service";
+
+
+         // Refferal For
+         $textRun = $section->addTextRun();
+         $textRun->addText("Refferal For: ", ['size' => 11, 'bold' => true]);
+         $textRun->addText("{$refferalForMeaning}\n", ['underline' => 'single', 'size' => 11, 'italic' => true]);
+
 
         // Add Patient Name and Date with underline
         $textRun = $section->addTextRun();
@@ -76,7 +127,7 @@ if (isset($_GET['Hid']) && isset($_GET['Pid'])) {
         // Age, Sex, and Birthdate
         $textRun = $section->addTextRun();
         $textRun->addText("AGE: ", ['size' => 11]);
-        $textRun->addText("__{$patientInfo['age']}__", ['underline' => 'single', 'size' => 11]);
+        $textRun->addText("__{$age}__", ['underline' => 'single', 'size' => 11]);
         $textRun->addText("SEX: ", ['size' => 11]);
         $textRun->addText("______{$patientInfo['sex']}______", ['underline' => 'single', 'size' => 11]);
         $textRun->addText("BIRTHDATE: ", ['size' => 11]);
@@ -86,6 +137,11 @@ if (isset($_GET['Hid']) && isset($_GET['Pid'])) {
         $textRun = $section->addTextRun();
         $textRun->addText("CIVIL STATUS: ", ['size' => 11]);
         $textRun->addText("{$patientInfo['civil_status']}", ['underline' => 'single', 'size' => 11]);
+
+         // Address
+         $textRun = $section->addTextRun();
+         $textRun->addText("PUROK: ", ['size' => 11]);
+         $textRun->addText("{$patientInfo['purok']}", ['underline' => 'single', 'size' => 11]);
 
         // Address
         $textRun = $section->addTextRun();
@@ -119,28 +175,28 @@ if (isset($_GET['Hid']) && isset($_GET['Pid'])) {
 
         // Vital Signs Data
         $table->addRow();
-        $table->addCell(2000)->addText("Blood Pressure", ['size' => 11]);
-        $table->addCell(2000)->addText($historyInfo['blood_pressure'], ['size' => 11]);
+        $table->addCell(5000)->addText("Blood Pressure", ['size' => 11]);
+        $table->addCell(5000)->addText($historyInfo['blood_pressure'], ['size' => 11]);
 
         $table->addRow();
-        $table->addCell(2000)->addText("Temperature", ['size' => 11]);
-        $table->addCell(2000)->addText($historyInfo['temperature'], ['size' => 11]);
+        $table->addCell(5000)->addText("Temperature", ['size' => 11]);
+        $table->addCell(5000)->addText($historyInfo['temperature'], ['size' => 11]);
 
         $table->addRow();
-        $table->addCell(2000)->addText("Pulse Rate", ['size' => 11]);
-        $table->addCell(2000)->addText($historyInfo['pulse_rate'], ['size' => 11]);
+        $table->addCell(5000)->addText("Pulse Rate", ['size' => 11]);
+        $table->addCell(5000)->addText($historyInfo['pulse_rate'], ['size' => 11]);
 
         $table->addRow();
-        $table->addCell(2000)->addText("Respiratory Rate", ['size' => 11]);
-        $table->addCell(2000)->addText($historyInfo['respiratory_rate'], ['size' => 11]);
+        $table->addCell(5000)->addText("Respiratory Rate", ['size' => 11]);
+        $table->addCell(5000)->addText($historyInfo['respiratory_rate'], ['size' => 11]);
 
         $table->addRow();
-        $table->addCell(2000)->addText("Height", ['size' => 11]);
-        $table->addCell(2000)->addText($historyInfo['height'], ['size' => 11]);
+        $table->addCell(5000)->addText("Height", ['size' => 11]);
+        $table->addCell(5000)->addText($historyInfo['height'], ['size' => 11]);
 
         $table->addRow();
-        $table->addCell(2000)->addText("Weight", ['size' => 11]);
-        $table->addCell(2000)->addText($historyInfo['weight'], ['size' => 11]);
+        $table->addCell(5000)->addText("Weight", ['size' => 11]);
+        $table->addCell(5000)->addText($historyInfo['weight'], ['size' => 11]);
 
 
         // Findings Section with Font Size 11
@@ -175,7 +231,7 @@ if (isset($_GET['Hid']) && isset($_GET['Pid'])) {
         $textRun->addText("Laboratory Findings: ", ['size' => 11]);
         $textRun->addText("_{$historyInfo['laboratory_findings']}______", ['underline' => 'single', 'size' => 11]);
 
-        $section->addTextBreak(1.5);
+        $section->addTextBreak(0.7);
         // Create a table for the signature
         $table = $section->addTable();
         $table->addRow();

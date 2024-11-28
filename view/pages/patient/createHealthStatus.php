@@ -11,6 +11,31 @@
     <a href="patient_history.php?PatientID=<?php echo htmlspecialchars($patientID); ?>" class="btn btn-danger my-2"> Back </a>
         
     <form action="" method="POST">
+    <div class="card mb-4">
+            <div class="card-header">Choose Refferal Type</div>
+            <div class="card-body">
+            <select class="form-select" name="refferal_for" id="refferal_for" required>
+                <option value="" disabled selected>Select a barangay service</option>
+                <option value="DP">Dengue Prevention and Management</option>
+                <option value="PR">Prenatal Referral</option>
+                <option value="IP">Immunization Programs</option>
+                <option value="MCH">Maternal and Child Health Services</option>
+                <option value="NP">Nutrition Programs</option>
+                <option value="HE">Health Education</option>
+                <option value="BMC">Basic Medical Consultations</option>
+                <option value="EHC">Environmental Health Campaigns</option>
+                <option value="TBC">Tuberculosis Control</option>
+                <option value="EFA">Emergency and First Aid Services</option>
+                <option value="LP">Livelihood Programs</option>
+                <option value="DPD">Disaster Preparedness</option>
+                <option value="CBR">Community-Based Rehabilitation</option>
+                <option value="SCP">Senior Citizen and PWD Assistance</option>
+                <option value="MHS">Mental Health Support</option>
+                <option value="CPS">Child Protection Services</option>
+            </select>
+
+            </div>
+        </div>
         <!-- Vital Signs Section -->
         <div class="card mb-4">
             <div class="card-header">Vital Signs</div>
@@ -70,15 +95,15 @@
                 </div>
                 <div class="mb-3">
                     <label for="diagnosis" class="form-label">Diagnosis</label>
-                    <textarea class="form-control" id="diagnosis" name="diagnosis" rows="3" required></textarea>
+                    <textarea class="form-control" id="diagnosis" name="diagnosis" rows="3" ></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="medication" class="form-label">Medication</label>
-                    <textarea class="form-control" id="medication" name="medication" rows="3" required></textarea>
+                    <textarea class="form-control" id="medication" name="medication" rows="3" ></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="laboratory_findings" class="form-label">Laboratory Findings</label>
-                    <textarea class="form-control" id="laboratory_findings" name="laboratory_findings" rows="3" required></textarea>
+                    <textarea class="form-control" id="laboratory_findings" name="laboratory_findings" rows="3" ></textarea>
                 </div>
             </div>
         </div>

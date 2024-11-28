@@ -53,6 +53,8 @@ if(isset($_GET['PatientID'])){
     // Get specific patient health history by patient ID
     $getHealthHistorys = $patientServices->getPatientHistory($patientID);
 
+     $refferal_for = $patientServices->clean('refferal_for', 'post');
+
      // Vital Signs
      $blood_pressure = $patientServices->clean('blood_pressure', 'post');
      $temperature = $patientServices->clean('temperature', 'post');
@@ -75,9 +77,10 @@ if(isset($_GET['PatientID'])){
     //IF CREATE HEALTH HISTORY
     if (isset($_POST['action'])) {
 
+
        if($_POST['action'] == 'createHealthStatus'){
             // Call create method to add the new patient
-            $status = $patientServices->createHealthStatus(
+            $status = $patientServices->createHealthStatus($refferal_for,
                 $patientID, $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
                 $cho_schedule, $name_of_attending_provider, $nature_of_visit, $type_of_consultation, 
                 $diagnosis, $medication, $laboratory_findings, $admin_name
@@ -96,6 +99,7 @@ if(isset($_GET['PatientID'])){
                 $historyID = $_GET['HistoryID'];
                 // Call create method to add the new patient
                 $status = $patientServices->updateHealthStatus(
+                    $refferal_for,
                     $historyID, $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
                     $cho_schedule, $name_of_attending_provider, $nature_of_visit, $type_of_consultation, 
                     $diagnosis, $medication, $laboratory_findings, $admin_name
@@ -129,13 +133,17 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
         header("Location: index.php");
     }
 // THIS PART NEED ACTION THEN PERFORM EITHER CREATE AND UPDATE
-}else if (isset($_POST['action'])) {
+}else if (isset($_POST['action'])) 
+
+{
+    $refferal_for = $patientServices->clean('refferal_for', 'post');
    // Clean input data
     $fname = $patientServices->clean('fname', 'post');
     $mname = $patientServices->clean('mname', 'post');
     $lname = $patientServices->clean('lname', 'post');
     $birthdate = $patientServices->clean('birthdate', 'post');
     $age = $patientServices->clean('age', 'post');
+    $purok = $patientServices->clean('purok', 'post');
     $address = $patientServices->clean('address', 'post');
     $phone_number = $patientServices->clean('phone_number', 'post');
     $civil_status = $patientServices->clean('civil_status', 'post');
@@ -161,8 +169,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
     //IF CREATE
     if($_POST['action'] == 'create') {
         // Call create method to add the new patient
-        $status = $patientServices->create(
-            $fname, $mname, $lname, $birthdate, $age, $address, $phone_number, $civil_status, $sex, 
+        $status = $patientServices->create($refferal_for,
+            $fname, $mname, $lname, $birthdate, $age, $purok, $address, $phone_number, $civil_status, $sex, 
             $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
             $cho_schedule, $name_of_attending_provider, $nature_of_visit, $type_of_consultation, 
             $diagnosis, $medication, $laboratory_findings, $admin_name
@@ -185,7 +193,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
     }else if($_POST['action'] == 'update' ) { 
          // Call create method to add the new patient
          $status = $patientServices->update(
-            $patientID, $fname, $mname, $lname, $birthdate, $age, $address, $phone_number, $civil_status, $sex, 
+            $patientID, $fname, $mname, $lname, $birthdate, $age, $purok, $address, $phone_number, $civil_status, $sex, 
         );
         if($status == true){
             // Redirect to index.php
@@ -218,9 +226,10 @@ if($title = "patientServices Update"){
             // Clean input data
             $fullname = $patientServices->clean('fullname', 'post');
             $contact_number = $patientServices->clean('contact_number', 'post');
+            $purok = $patientServices->clean('purok', 'post');
             $address = $patientServices->clean('address', 'post');
             // Call create method to add the new owner
-            $owners = $patientServices->update($getSpecificOwner['id'], $fullname, $contact_number, $address);
+            $owners = $patientServices->update($getSpecificOwner['id'], $fullname, $contact_number, $purok, $address);
             // Optionally, you can redirect or show a success message after creation
             if($owners == true){
                 // Redirect to index.php

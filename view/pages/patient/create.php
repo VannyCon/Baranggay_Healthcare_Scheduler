@@ -8,8 +8,34 @@
 
 <div class="container mt-5">
 <a href="index.php" class="btn btn-danger my-2"> Back </a>
-    <h2 class="mb-4">Patient Information Form</h2>
+    <h2 class="mb-4">Refferal Form</h2>
     <form action="" method="POST">
+
+    <div class="card mb-4">
+            <div class="card-header">Choose Refferal Type</div>
+            <div class="card-body">
+            <select class="form-select" name="refferal_for" id="refferal_for" required>
+                <option value="" disabled selected>Select a barangay service</option>
+                <option value="DP">Dengue Prevention and Management</option>
+                <option value="PR">Prenatal Referral</option>
+                <option value="IP">Immunization Programs</option>
+                <option value="MCH">Maternal and Child Health Services</option>
+                <option value="NP">Nutrition Programs</option>
+                <option value="HE">Health Education</option>
+                <option value="BMC">Basic Medical Consultations</option>
+                <option value="EHC">Environmental Health Campaigns</option>
+                <option value="TBC">Tuberculosis Control</option>
+                <option value="EFA">Emergency and First Aid Services</option>
+                <option value="LP">Livelihood Programs</option>
+                <option value="DPD">Disaster Preparedness</option>
+                <option value="CBR">Community-Based Rehabilitation</option>
+                <option value="SCP">Senior Citizen and PWD Assistance</option>
+                <option value="MHS">Mental Health Support</option>
+                <option value="CPS">Child Protection Services</option>
+            </select>
+
+            </div>
+        </div>
         <!-- Patient Information Section -->
         <div class="card mb-4">
             <div class="card-header">Patient Information</div>
@@ -38,8 +64,21 @@
                         <input type="number" class="form-control" id="age" name="age" required>
                     </div>
                 </div>
+
                 <div class="mb-3">
-                    <label for="address" class="form-label">Address</label>
+                    <label for="age" class="form-label">Purok</label>
+                    <select class="form-select" name="purok" id="Purok" required>
+                        <option value="" disabled selected>Select a Purok</option>
+                        <option value="Prk. Napungalan 1 Brgy. JonobJonob Escalante City Negros Occidental">Prk. Napungalan 1 Brgy. JonobJonob Escalante City Negros Occidental</option>
+                        <option value="Prk. Napungalan 2 Brgy. JonobJonob Escalante City Negros Occidental">Prk. Napungalan 2 Brgy. JonobJonob Escalante City Negros Occidental</option>
+                        <option value="So. Golden Rosary Brgy. JonobJonob Escalante City Negros Occidental">So. Golden Rosary Brgy. JonobJonob Escalante City Negros Occidental</option>
+                        <option value="Habitat Homes Brgy. JonobJonob Escalante City Negros Occidental">Habitat Homes Brgy. JonobJonob Escalante City Negros Occidental</option>
+                        <option value="Prk. Mahogany Brgy. JonobJonob Escalante City Negros Occidental">Prk. Mahogany Brgy. JonobJonob Escalante City Negros Occidental</option>
+                        <option value="Prk. Sambag Brgy. JonobJonob Escalante City Negros Occidental">Prk. Sambag Brgy. JonobJonob Escalante City Negros Occidental</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Street</label>
                     <input type="text" class="form-control" id="address" name="address" required>
                 </div>
                 <div class="mb-3">
@@ -59,7 +98,7 @@
                     <div class="col-md-6">
                         <label for="sex" class="form-label">Sex</label>
                         <select class="form-select" id="sex" name="sex" required>
-                            <option value="" selected disabled>Select Gender</option>
+                            <option value="" selected disabled>Select Sex</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
@@ -111,11 +150,13 @@
             <div class="card-body">
                 <div class="mb-3">
                     <label for="cho_schedule" class="form-label">CHO Schedule</label>
-                    <input type="datetime-local" class="form-control" id="cho_schedule" name="cho_schedule" required>
+                    <input type="datetime-local" class="form-control" id="cho_schedule" name="cho_schedule" 
+                    required>
                 </div>
                 <div class="mb-3">
                     <label for="name_of_attending_provider" class="form-label">Attending Provider</label>
-                    <input type="text" class="form-control" id="name_of_attending_provider" name="name_of_attending_provider" required>
+                    <input type="text" class="form-control" id="name_of_attending_provider" name="name_of_attending_provider" 
+                    required>
                 </div>
                 <div class="mb-3">
                     <label for="nature_of_visit" class="form-label">Nature of Visit</label>
@@ -123,19 +164,19 @@
                 </div>
                 <div class="mb-3">
                     <label for="type_of_consultation" class="form-label">Type of Consultation</label>
-                    <input type="text" class="form-control" id="type_of_consultation" name="type_of_consultation" required>
+                    <input type="text" class="form-control" id="type_of_consultation" name="type_of_consultation" >
                 </div>
                 <div class="mb-3">
                     <label for="diagnosis" class="form-label">Diagnosis</label>
-                    <textarea class="form-control" id="diagnosis" name="diagnosis" rows="3" required></textarea>
+                    <textarea class="form-control" id="diagnosis" name="diagnosis" rows="3" ></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="medication" class="form-label">Medication</label>
-                    <textarea class="form-control" id="medication" name="medication" rows="3" required></textarea>
+                    <textarea class="form-control" id="medication" name="medication" rows="3" ></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="laboratory_findings" class="form-label">Laboratory Findings</label>
-                    <textarea class="form-control" id="laboratory_findings" name="laboratory_findings" rows="3" required></textarea>
+                    <textarea class="form-control" id="laboratory_findings" name="laboratory_findings" rows="3" ></textarea>
                 </div>
             </div>
         </div>

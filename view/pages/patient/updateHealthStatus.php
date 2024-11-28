@@ -10,7 +10,33 @@
     <h2 class="mb-4">Patient Information Form</h2>
     <form action="" method="POST">
         <a href="patient_history.php?PatientID=<?php echo htmlspecialchars($patientID); ?>" class="btn btn-danger my-2"> Back </a>
-          <!-- Vital Signs Section -->
+        <div class="card mb-4">
+            <div class="card-header">Choose Refferal Type</div>
+            <div class="card-body">
+            <select class="form-select" name="refferal_for" id="refferal_for" required>
+                <option value="" disabled <?php echo empty($specificHistory['refferal_for']) ? 'selected' : ''; ?>>Select a barangay service</option>
+                <option value="DP" <?php echo $specificHistory['refferal_for'] === 'DP' ? 'selected' : ''; ?>>Dengue Prevention and Management</option>
+                <option value="PR" <?php echo $specificHistory['refferal_for'] === 'PR' ? 'selected' : ''; ?>>Prenatal Referral</option>
+                <option value="IP" <?php echo $specificHistory['refferal_for'] === 'IP' ? 'selected' : ''; ?>>Immunization Programs</option>
+                <option value="MCH" <?php echo $specificHistory['refferal_for'] === 'MCH' ? 'selected' : ''; ?>>Maternal and Child Health Services</option>
+                <option value="NP" <?php echo $specificHistory['refferal_for'] === 'NP' ? 'selected' : ''; ?>>Nutrition Programs</option>
+                <option value="HE" <?php echo $specificHistory['refferal_for'] === 'HE' ? 'selected' : ''; ?>>Health Education</option>
+                <option value="BMC" <?php echo $specificHistory['refferal_for'] === 'BMC' ? 'selected' : ''; ?>>Basic Medical Consultations</option>
+                <option value="EHC" <?php echo $specificHistory['refferal_for'] === 'EHC' ? 'selected' : ''; ?>>Environmental Health Campaigns</option>
+                <option value="TBC" <?php echo $specificHistory['refferal_for'] === 'TBC' ? 'selected' : ''; ?>>Tuberculosis Control</option>
+                <option value="EFA" <?php echo $specificHistory['refferal_for'] === 'EFA' ? 'selected' : ''; ?>>Emergency and First Aid Services</option>
+                <option value="LP" <?php echo $specificHistory['refferal_for'] === 'LP' ? 'selected' : ''; ?>>Livelihood Programs</option>
+                <option value="DPD" <?php echo $specificHistory['refferal_for'] === 'DPD' ? 'selected' : ''; ?>>Disaster Preparedness</option>
+                <option value="CBR" <?php echo $specificHistory['refferal_for'] === 'CBR' ? 'selected' : ''; ?>>Community-Based Rehabilitation</option>
+                <option value="SCP" <?php echo $specificHistory['refferal_for'] === 'SCP' ? 'selected' : ''; ?>>Senior Citizen and PWD Assistance</option>
+                <option value="MHS" <?php echo $specificHistory['refferal_for'] === 'MHS' ? 'selected' : ''; ?>>Mental Health Support</option>
+                <option value="CPS" <?php echo $specificHistory['refferal_for'] === 'CPS' ? 'selected' : ''; ?>>Child Protection Services</option>
+            </select>
+
+
+            </div>
+        </div>  
+        <!-- Vital Signs Section -->
           <div class="card mb-4">
             <div class="card-header">Vital Signs</div>
             <div class="card-body">
@@ -69,15 +95,15 @@
                 </div>
                 <div class="mb-3">
                     <label for="diagnosis" class="form-label">Diagnosis</label>
-                    <textarea class="form-control" id="diagnosis" name="diagnosis" rows="3" required><?php echo htmlspecialchars($specificHistory['diagnosis']); ?></textarea>
+                    <textarea class="form-control" id="diagnosis" name="diagnosis" rows="3" ><?php echo htmlspecialchars($specificHistory['diagnosis']); ?></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="medication" class="form-label">Medication</label>
-                    <input type="text" class="form-control" value="<?php echo htmlspecialchars($specificHistory['medication']); ?>" id="medication" name="medication" required>
+                    <input type="text" class="form-control" value="<?php echo htmlspecialchars($specificHistory['medication']); ?>" id="medication" name="medication" >
                 </div>
                 <div class="mb-3">
                     <label for="laboratory_findings" class="form-label">Laboratory Findings</label>
-                    <textarea class="form-control" id="laboratory_findings" name="laboratory_findings" rows="3" required><?php echo htmlspecialchars($specificHistory['laboratory_findings']); ?></textarea>
+                    <textarea class="form-control" id="laboratory_findings" name="laboratory_findings" rows="3" ><?php echo htmlspecialchars($specificHistory['laboratory_findings']); ?></textarea>
                 </div>
             </div>
         </div>
