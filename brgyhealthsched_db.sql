@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2024 at 01:39 PM
+-- Generation Time: Dec 03, 2024 at 01:21 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -86,7 +86,8 @@ INSERT INTO `tbl_findings` (`id`, `patient_id_fk`, `history_id_fk`, `refferal_fo
 (26, 'PATIENTNUM-00D09899F0FD', 'HISTORY-B3F39', 'PR', '2024-11-21T11:15', 's', 's', 's', 's', 'sss', 's'),
 (27, 'PATIENTNUM-E06D40E6DC68', 'HISTORY-3F171', 'PR', '2024-11-27T07:49', 'sad', 'asdasd', 'sdsds', '', '', ''),
 (28, 'PATIENTNUM-E06D40E6DC68', 'HISTORY-0D4B1', 'CPS', '2024-11-28T20:10', '123', '123', '123', '', '', ''),
-(29, 'PATIENTNUM-E06D40E6DC68', 'HISTORY-4506E', 'BMC', '2024-11-28T20:14', '23', '23', 'df', '', '', '');
+(29, 'PATIENTNUM-E06D40E6DC68', 'HISTORY-4506E', 'BMC', '2024-11-28T20:14', '23', '23', 'df', '', '', ''),
+(30, 'PATIENTNUM-940674F8DFD5', 'HISTORY-DFAAA', 'TBC', '2024-11-28T21:10', 'asd', 'as', 'sss', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -117,7 +118,8 @@ INSERT INTO `tbl_history` (`id`, `patient_id_fk`, `history_ids`, `date`, `create
 (28, 'PATIENTNUM-00D09899F0FD', 'HISTORY-B3F39', '2024-11-21 03:15:50.000000', 'VasHCon', '2024-11-28 11:40:12.126609'),
 (29, 'PATIENTNUM-E06D40E6DC68', 'HISTORY-3F171', '2024-11-26 23:49:43.000000', 'VasHCon', '2024-11-28 11:40:14.175917'),
 (30, 'PATIENTNUM-E06D40E6DC68', 'HISTORY-0D4B1', '2024-11-28 12:11:04.000000', 'VasHCon', '2024-11-28 12:13:28.000000'),
-(31, 'PATIENTNUM-E06D40E6DC68', 'HISTORY-4506E', '2024-11-28 12:14:17.000000', 'VasHCon', '2024-11-28 12:14:17.000000');
+(31, 'PATIENTNUM-E06D40E6DC68', 'HISTORY-4506E', '2024-11-28 12:14:17.000000', 'VasHCon', '2024-11-28 12:14:17.000000'),
+(32, 'PATIENTNUM-940674F8DFD5', 'HISTORY-DFAAA', '2024-11-28 13:10:23.000000', 'VasHCon', '2024-11-28 13:10:23.000000');
 
 -- --------------------------------------------------------
 
@@ -133,6 +135,7 @@ CREATE TABLE `tbl_patient_info` (
   `lname` varchar(255) NOT NULL,
   `birthdate` varchar(255) NOT NULL,
   `age` varchar(255) NOT NULL,
+  `purok` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
   `phone_number` varchar(255) NOT NULL,
   `civil_status` varchar(255) NOT NULL,
@@ -143,10 +146,11 @@ CREATE TABLE `tbl_patient_info` (
 -- Dumping data for table `tbl_patient_info`
 --
 
-INSERT INTO `tbl_patient_info` (`id`, `patient_id`, `fname`, `mname`, `lname`, `birthdate`, `age`, `address`, `phone_number`, `civil_status`, `sex`) VALUES
-(17, 'PATIENTNUM-E06D40E6DC68', 'User2', 'M.', 'Lasr', '2001-11-19', '20', 'sdf', '09176358646', 'Married', 'Male'),
-(18, 'PATIENTNUM-043F62213CC4', 'Kristel', 'Bugasan', 'Pedrano', '2005-04-12', '18', 'Sagay City', '09054805560', 'Single', 'Male'),
-(19, 'PATIENTNUM-00D09899F0FD', 'chaira', 'm', 'f', '2024-11-21', '0', 'Sagay City, Negros Occidental', '09076518095', 'Single', 'Female');
+INSERT INTO `tbl_patient_info` (`id`, `patient_id`, `fname`, `mname`, `lname`, `birthdate`, `age`, `purok`, `address`, `phone_number`, `civil_status`, `sex`) VALUES
+(17, 'PATIENTNUM-E06D40E6DC68', 'User2', 'M.', 'Lasr', '2001-11-19', '20', 'Prk. Napungalan 1 Brgy. JonobJonob Escalante City Negros Occidental', 'sdf', '09176358646', 'Married', 'Male'),
+(18, 'PATIENTNUM-043F62213CC4', 'Kristels434', 'Bugasansss', 'Pedranosss', '2005-04-12', '18', 'Prk. Napungalan 1 Brgy. JonobJonob Escalante City Negros Occidental', 'Sagay City', '09054805560', 'Single', 'Male'),
+(19, 'PATIENTNUM-00D09899F0FD', 'chaira', 'm', 'finals', '2014-06-28', '21', 'Prk. Napungalan 1 Brgy. JonobJonob Escalante City Negros Occidental', 'Sagay City, Negros Occidental', '09076518095', 'Single', 'Female'),
+(20, 'PATIENTNUM-940674F8DFD5', 'Kudo', 'San', 'Dugo', '2000-09-02', '24', 'Prk. Mahogany Brgy. JonobJonob Escalante City Negros Occidental', 'bangga Streeet', '0923245123', 'Single', 'Female');
 
 -- --------------------------------------------------------
 
@@ -179,7 +183,8 @@ INSERT INTO `tbl_vital_sign` (`id`, `patient_id_fk`, `history_id_fk`, `blood_pre
 (28, 'PATIENTNUM-00D09899F0FD', 'HISTORY-B3F39', '1', 1111, 111, 1, 111, 1),
 (29, 'PATIENTNUM-E06D40E6DC68', 'HISTORY-3F171', '120/80', 23, 24, 42, 23, 43),
 (30, 'PATIENTNUM-E06D40E6DC68', 'HISTORY-0D4B1', '123', 123, 123, 123, 123, 123),
-(31, 'PATIENTNUM-E06D40E6DC68', 'HISTORY-4506E', '9', 9, 9, 9, 9, 9);
+(31, 'PATIENTNUM-E06D40E6DC68', 'HISTORY-4506E', '9', 9, 9, 9, 9, 9),
+(32, 'PATIENTNUM-940674F8DFD5', 'HISTORY-DFAAA', '98/98', 98, 98, 98, 98, 98);
 
 -- --------------------------------------------------------
 
@@ -247,25 +252,25 @@ ALTER TABLE `tbl_admin_access`
 -- AUTO_INCREMENT for table `tbl_findings`
 --
 ALTER TABLE `tbl_findings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `tbl_history`
 --
 ALTER TABLE `tbl_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `tbl_patient_info`
 --
 ALTER TABLE `tbl_patient_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `tbl_vital_sign`
 --
 ALTER TABLE `tbl_vital_sign`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- Constraints for dumped tables
