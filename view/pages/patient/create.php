@@ -66,7 +66,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="age" class="form-label">Purok</label>
+                    <label for="age" class="form-label">Address</label>
                     <select class="form-select" name="purok" id="Purok" required>
                         <option value="" disabled selected>Select a Purok</option>
                         <option value="Prk. Napungalan 1 Brgy. JonobJonob Escalante City Negros Occidental">Prk. Napungalan 1 Brgy. JonobJonob Escalante City Negros Occidental</option>
@@ -77,10 +77,10 @@
                         <option value="Prk. Sambag Brgy. JonobJonob Escalante City Negros Occidental">Prk. Sambag Brgy. JonobJonob Escalante City Negros Occidental</option>
                     </select>
                 </div>
-                <div class="mb-3">
-                    <label for="address" class="form-label">Street</label>
-                    <input type="text" class="form-control" id="address" name="address" required>
-                </div>
+                <!-- <div class="mb-3">
+                    <label for="address" class="form-label">Street <span><small class="text-danger">(Optional)</small></span></label>
+                    <input type="text" class="form-control" id="address" name="address">
+                </div> -->
                 <div class="mb-3">
                     <label for="phone_number" class="form-label">Contact Number</label>
                     <input type="number" class="form-control" id="phone_number" name="phone_number" required>
@@ -156,12 +156,12 @@
                 <div class="mb-3">
                     <label for="name_of_attending_provider" class="form-label">Attending Provider</label>
                     <input type="text" class="form-control" id="name_of_attending_provider" name="name_of_attending_provider" 
-                    required>
+                    value="Ms. Tessie Cuanan M.D" readonly >
                 </div>
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label for="nature_of_visit" class="form-label">Nature of Visit</label>
                     <input type="text" class="form-control" id="nature_of_visit" name="nature_of_visit" required>
-                </div>
+                </div> -->
                 <div class="mb-3">
                     <label for="type_of_consultation" class="form-label">Type of Consultation</label>
                     <input type="text" class="form-control" id="type_of_consultation" name="type_of_consultation" >
