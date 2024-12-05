@@ -20,7 +20,7 @@ $sectionStyle = [
     'orientation' => 'portrait',
     'pageSizeW'   => Converter::inchToTwip(8.27), // A4 width
     'pageSizeH'   => Converter::inchToTwip(11.69), // A4 height
-    'marginTop'    => Converter::inchToTwip(0.5),
+    'marginTop'    => Converter::inchToTwip(0.2),
     'marginBottom' => Converter::inchToTwip(0.5),
     'marginLeft'   => Converter::inchToTwip(0.5),
     'marginRight'  => Converter::inchToTwip(0.5),
@@ -117,7 +117,7 @@ $cellRightLogo->addImage(
 );
 
 
-$paragraphStyle1 = ['spacing' => 0, 'spaceAfter' => 1.15];
+$paragraphStyle1 = ['spacing' => 1.15, 'spaceAfter' => 1.15];
 
 $cellRight->addText("PATIENT NAME: _______________________________________", ['size' => 11] , $paragraphStyle1);
 $cellRight->addText("AGE: _______ SEX: _______ BIRTHDATE: __________________", ['size' => 11] , $paragraphStyle1);
@@ -298,7 +298,7 @@ $cellRightLogo->addImage(
 
 
 
-$paragraphStyle1 = ['spacing' => 0, 'spaceAfter' => 1.15];
+$paragraphStyle1 = ['spacing' => 1.15, 'spaceAfter' => 1.15];
 
 $cellRight->addText("PATIENT NAME: _______________________________________", ['size' => 11] , $paragraphStyle1);
 $cellRight->addText("AGE: _______ SEX: _______ BIRTHDATE: __________________", ['size' => 11] , $paragraphStyle1);
@@ -338,10 +338,10 @@ $cellRight->addText("☐ Admitted                                   ☐ Recover 
 $cellRight->addText("☐ Consultation done                    ☐ Improved", ['size' => 10] , ['spacing' => 0, 'spaceAfter' => 0]);
 $cellRight->addText("☐ Work-up Done                          ☐ Improved", ['size' => 10] , ['spacing' => 0, 'spaceAfter' => 0]);
 $cellRight->addText("☐ Reffered to higher center         ☐ Worsened", ['size' => 10] , ['spacing' => 0, 'spaceAfter' => 0]);
-$cellRight->addText(
-    "         MEDICATION DOSAGE DATE STARTED", 
-    ['size' => 10, 'shading' => 'FFFF00'],  // Set background color (hex color)
-);
+
+$cellRight->addTextBreak(1);
+$cellRight->addText("         MEDICATION DOSAGE DATE STARTED", ['size' => 10] , ['spacing' => 0, 'spaceAfter' => 0]);
+$cellRight->addText("_____________________________________________________________", ['size' => 10] , ['spacing' => 0, 'spaceAfter' => 0]);
 
 $cellRight->addTextBreak(1);
 
