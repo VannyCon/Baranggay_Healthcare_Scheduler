@@ -68,7 +68,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <div class="col-md-12">
               <p class="text-success"><span class="text-dark">Fullname : </span><?php echo htmlspecialchars($specificPatient['fname'] . ' ' . $specificPatient['mname'] . ' ' . $specificPatient['lname']); ?></p>
               <p class="text-success"><span class="text-dark">Contact Number : </span><?php echo htmlspecialchars($specificPatient['phone_number']); ?></p>
-              <p class="text-success"><span class="text-dark">Address : </span><?php echo htmlspecialchars($specificPatient['address']); ?></p>
+              <p class="text-success"><span class="text-dark">Address : </span><?php echo htmlspecialchars($specificPatient['purok']); ?></p>
               <p class="text-success"><span class="text-dark">Birthdate: </span><?php $formattedBirthdate = date('F d, Y', strtotime($specificPatient['birthdate'])); echo htmlspecialchars($formattedBirthdate);?></p>
               <?php
                 // Assume $specificPatient['birthdate'] contains the birthdate in 'YYYY-MM-DD' format

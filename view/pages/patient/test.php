@@ -30,6 +30,34 @@ if (isset($_GET['Hid']) && isset($_GET['Pid'])) {
     $date = new DateTime($originalDate);
     $formattedDate = $date->format('F d, Y'); 
 
+    // Mapping abbreviations to their meanings
+    $barangayServices = [
+        "DP" => "Dengue Prevention and Management",
+        "PR" => "Prenatal Referral",
+        "IP" => "Immunization Programs",
+        "MCH" => "Maternal and Child Health Services",
+        "NP" => "Nutrition Programs",
+        "HE" => "Health Education",
+        "BMC" => "Basic Medical Consultations",
+        "EHC" => "Environmental Health Campaigns",
+        "TBC" => "Tuberculosis Control",
+        "EFA" => "Emergency and First Aid Services",
+        "LP" => "Livelihood Programs",
+        "DPD" => "Disaster Preparedness",
+        "CBR" => "Community-Based Rehabilitation",
+        "SCP" => "Senior Citizen and PWD Assistance",
+        "MHS" => "Mental Health Support",
+        "CPS" => "Child Protection Services"
+    ];
+
+    // Get the abbreviation from the specific patient data
+    $refferalForAbbreviation = $historyInfo['refferal_for'];
+
+    // Get the full meaning from the mapping
+    $refferalForMeaning = isset($barangayServices[$refferalForAbbreviation]) 
+        ? $barangayServices[$refferalForAbbreviation] 
+        : "Unknown Service";
+
 
     // Assume $specificPatient['birthdate'] contains the birthdate in 'YYYY-MM-DD' format
     $birthdate = $patientInfo['birthdate']; // E.g., '1990-05-15'
@@ -255,7 +283,7 @@ if (isset($_GET['Hid']) && isset($_GET['Pid'])) {
         'borderBottomSize' => 10,  // Add bottom border
         'borderLeftSize' => 10     // Add left border
     ]);
-    $boxCell->addText("", $paragraphStyle); // Empty text to maintain the box shape
+    $boxCell->addText("{$refferalForMeaning}", $paragraphStyle); // Empty text to maintain the box shape
     $cellRight->addText('', [], ['spacing' => 0, 'spaceAfter' => 30,]); // Adjust 10 to control spacing
 
 
@@ -302,9 +330,9 @@ if (isset($_GET['Hid']) && isset($_GET['Pid'])) {
     $vitalSignsRun2->addText("    Ht: ", ['size' => 10]);
     $vitalSignsRun2->addText("{$historyInfo['weight']}", ['underline' => 'single', 'size' => 10]);
     $vitalSignsRun2->addText("    Waist: ", ['size' => 10]);
-    $vitalSignsRun2->addText("    ", ['underline' => 'single', 'size' => 10]);
+    $vitalSignsRun2->addText("____", ['underline' => 'single', 'size' => 10]);
     $vitalSignsRun2->addText("    O₂ Sat: ", ['size' => 10]);
-    $vitalSignsRun2->addText("    ", ['underline' => 'single', 'size' => 10]);
+    $vitalSignsRun2->addText("____", ['underline' => 'single', 'size' => 10]);
 
     $cellRight->addText('', [], ['spacing' => 0, 'spaceAfter' => 30,]); // Adjust 10 to control spacing
 
@@ -333,7 +361,7 @@ if (isset($_GET['Hid']) && isset($_GET['Pid'])) {
     $cellRight->addTextBreak(1);
     // Now add the lines to the table cells
     $cellRight->addText("ACTION TAKEN/TREATMENT/MEDICATION GIVEN", ['bold' => true, 'size' => 11]);
-    $cellRight->addText("         Medication        Dosage   Date Started    Time last dose given", ['size' => 11], $paragraphStyle6);
+    $cellRight->addText("         Medication        Dosage   Date Started    Time last dose given", ['bold' => true,'size' => 10], $paragraphStyle6);
     
     $cellRight->addText("{$historyInfo['medication']}", ['underline' => 'single','size' => 11]);
     // Start output buffering
@@ -508,9 +536,6 @@ if (isset($_GET['Hid']) && isset($_GET['Pid'])) {
         'borderLeftSize' => 10     // Add left border
     ]);
     $boxCell->addText("", $paragraphStyle); // Empty text to maintain the box shape
-    $cellRight->addTextBreak(1);
-
-
 
     $cellRight->addText("  ACTION                            OUTCOME:", ['size' => 10] , ['spacing' => 0, 'spaceAfter' => 0]);
     $cellRight->addText("☐ Admitted                                   ☐ Recover          ☐Died", ['size' => 10] , ['spacing' => 0, 'spaceAfter' => 0]);

@@ -47,7 +47,6 @@ $referralSummary = $patientServices->getDataAnalysis();
             <table border="1" class="table" id="nurseryOwnersTable">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Full Name</th>
                         <th>Contact Number</th>
                         <th>Address</th>
@@ -61,18 +60,27 @@ $referralSummary = $patientServices->getDataAnalysis();
                     <?php if (!empty($patients)): ?>
                         <?php foreach ($patients as $patient): ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($patient['id']); ?></td>
                                 <td><?php echo htmlspecialchars($patient['full_name']); ?></td>
                                 <td><?php echo htmlspecialchars($patient['phone_number']); ?></td>
                                 <td><?php echo htmlspecialchars($patient['purok']); ?></td>
-                                <td><?php echo htmlspecialchars($patient['birthdate']); ?></td>
+                                <td>
+                                  <?php 
+                                      // Assuming $patient['birthdate'] is in the format 'YYYY-MM-DD' (e.g., '2024-09-16')
+                                      $birthdate = new DateTime($patient['birthdate']);
+                                      echo $birthdate->format('F j, Y'); // Outputs: September 16, 2024
+                                  ?>
+                              </td>
+
                                 <td><?php echo htmlspecialchars($patient['civil_status']); ?></td>
                                 <td><?php echo htmlspecialchars($patient['sex']); ?></td>
                                 <td>
-                                    <a class="btn btn-outline-info mx-0 mx-md-2" href="update.php?PatientID=<?php echo htmlspecialchars($patient['patient_id']); ?>">Update</a>
-                                    <button class="btn btn-outline-danger mt-1 mt-md-0" data-id="<?php echo htmlspecialchars($patient['patient_id']); ?>" onclick="setDeleteId(this)">Delete</button>
-                                    <a class="btn btn-outline-primary mx-0 mx-md-2" href="patient_history.php?PatientID=<?php echo htmlspecialchars($patient['patient_id']); ?>">History</a>
+                                    <div class="d-flex justify-content-start">
+                                        <a class="btn btn-outline-info" href="update.php?PatientID=<?php echo htmlspecialchars($patient['patient_id']); ?>">Update</a>
+                                        <button class="btn btn-outline-danger mx-1" data-id="<?php echo htmlspecialchars($patient['patient_id']); ?>" onclick="setDeleteId(this)">Delete</button>
+                                        <a class="btn btn-outline-primary" href="patient_history.php?PatientID=<?php echo htmlspecialchars($patient['patient_id']); ?>">History</a>
+                                    </div>
                                 </td>
+
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
