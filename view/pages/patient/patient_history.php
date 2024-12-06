@@ -109,7 +109,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         ?>
                 </div>
                 <div>
-                  <button type="button" class="btn btn-outline-danger mt-1 mt-md-0" data-id="<?php echo htmlspecialchars($getHealthHistory['history_ids']); ?>" data-patient_id="<?php echo htmlspecialchars($patientID); ?>" onclick="setHealthHistoryDeleteId(this)">Delete</button>
+                  <!-- <button type="button" class="btn btn-outline-danger mt-1 mt-md-0" data-id="<?php echo htmlspecialchars($getHealthHistory['history_ids']); ?>" data-patient_id="<?php echo htmlspecialchars($patientID); ?>" onclick="setHealthHistoryDeleteId(this)">Delete</button> -->
                 </div>
 
               </div>
@@ -166,13 +166,11 @@ if (session_status() === PHP_SESSION_NONE) {
                   <p class="text-success"><?php $formattedBirthdate = date('F d, Y - h:i A', strtotime($getHealthHistory['cho_schedule'])); echo htmlspecialchars($formattedBirthdate);?></p>
                   <label for="cho_schedule" class="form-label">Attending Provider</label>
                   <p class="text-success"><?php echo htmlspecialchars($getHealthHistory['name_of_attending_provider']); ?></p>
-                  <label for="cho_schedule" class="form-label">Nature of Visit</label>
-                  <p class="text-success"><?php echo htmlspecialchars($getHealthHistory['nature_of_visit']); ?></p>
                   <label for="cho_schedule" class="form-label">Type of Consultation</label>
                   <p class="text-success"><?php echo htmlspecialchars($getHealthHistory['type_of_consultation']); ?></p>
                   <label for="cho_schedule" class="form-label">Diagnosis</label>
                   <p class="text-success"><?php echo htmlspecialchars($getHealthHistory['diagnosis']); ?></p>
-                  <label for="cho_schedule" class="form-label">Medicaiton</label>
+                  <label for="cho_schedule" class="form-label">Medication</label>
                   <p class="text-success"><?php echo htmlspecialchars($getHealthHistory['medication']); ?></p>
                   <label for="cho_schedule" class="form-label">Laboratory Findings</label>
                   <p class="text-success"><?php echo htmlspecialchars($getHealthHistory['laboratory_findings']); ?></p>
@@ -204,7 +202,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
                 <!-- Print Referral Button -->
                 <div class="col-md-4 mb-2">
-                  <a class="btn btn-outline-primary w-100" href="done.php?Hid=<?php echo htmlspecialchars($getHealthHistory['history_ids']); ?>&Pid=<?php echo htmlspecialchars($patientID); ?>">Print Referral</a>
+                  <a class="btn btn-outline-primary w-100" href="test.php?Hid=<?php echo htmlspecialchars($getHealthHistory['history_ids']); ?>&Pid=<?php echo htmlspecialchars($patientID); ?>">Print Referral</a>
                 </div>
 
                 <!-- Remind SMS Button -->

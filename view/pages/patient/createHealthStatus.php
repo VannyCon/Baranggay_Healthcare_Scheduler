@@ -85,10 +85,10 @@
                     <label for="name_of_attending_provider" class="form-label">Attending Provider</label>
                     <input type="text" class="form-control" id="name_of_attending_provider" name="name_of_attending_provider" required>
                 </div>
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label for="nature_of_visit" class="form-label">Nature of Visit</label>
                     <input type="text" class="form-control" id="nature_of_visit" name="nature_of_visit" required>
-                </div>
+                </div> -->
                 <div class="mb-3">
                     <label for="type_of_consultation" class="form-label">Type of Consultation</label>
                     <input type="text" class="form-control" id="type_of_consultation" name="type_of_consultation" required>

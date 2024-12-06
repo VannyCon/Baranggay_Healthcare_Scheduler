@@ -64,13 +64,13 @@ $referralSummary = $patientServices->getDataAnalysis();
                                 <td><?php echo htmlspecialchars($patient['id']); ?></td>
                                 <td><?php echo htmlspecialchars($patient['full_name']); ?></td>
                                 <td><?php echo htmlspecialchars($patient['phone_number']); ?></td>
-                                <td><?php echo htmlspecialchars($patient['address']); ?></td>
+                                <td><?php echo htmlspecialchars($patient['purok']); ?></td>
                                 <td><?php echo htmlspecialchars($patient['birthdate']); ?></td>
                                 <td><?php echo htmlspecialchars($patient['civil_status']); ?></td>
                                 <td><?php echo htmlspecialchars($patient['sex']); ?></td>
                                 <td>
                                     <a class="btn btn-outline-info mx-0 mx-md-2" href="update.php?PatientID=<?php echo htmlspecialchars($patient['patient_id']); ?>">Update</a>
-                                    <button class="btn btn-outline-danger mt-1 mt-md-0" data-id="<?php echo htmlspecialchars($patient['id']); ?>" onclick="setDeleteId(this)">Delete</button>
+                                    <button class="btn btn-outline-danger mt-1 mt-md-0" data-id="<?php echo htmlspecialchars($patient['patient_id']); ?>" onclick="setDeleteId(this)">Delete</button>
                                     <a class="btn btn-outline-primary mx-0 mx-md-2" href="patient_history.php?PatientID=<?php echo htmlspecialchars($patient['patient_id']); ?>">History</a>
                                 </td>
                             </tr>

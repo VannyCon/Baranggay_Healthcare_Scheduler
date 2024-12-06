@@ -35,12 +35,30 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="birthdate" class="form-label">Birthdate</label>
-                        <input type="date" class="form-control" value="<?php echo htmlspecialchars($specificPatient['birthdate']); ?>" id="birthdate" name="birthdate" required>
+                        <input type="date" class="form-control" id="birthdate" value="<?php echo htmlspecialchars($specificPatient['birthdate']); ?>" name="birthdate" required onchange="updateAge()">
                     </div>
-                    <div class="col-md-6">
-                        <label for="age" class="form-label">Age</label>
-                        <input type="number" class="form-control" value="<?php echo htmlspecialchars($specificPatient['age']); ?>" id="age" name="age" required>
-                    </div>
+                    <?php
+                            // Assuming the patient's birthdate is stored in the $specificPatient['birthdate']
+                            // The birthdate format is 'YYYY-MM-DD'
+
+                            $birthdate = $specificPatient['birthdate'];  // e.g., '1990-05-15'
+
+                            // Convert the birthdate string into a DateTime object
+                            $birthDateObject = new DateTime($birthdate);
+
+                            // Get the current date
+                            $today = new DateTime('today');
+
+                            // Calculate the age
+                            $age = $birthDateObject->diff($today)->y;
+                            ?>
+
+                            <div class="col-md-6">
+                                <label for="age" class="form-label">Age</label>
+                                <!-- Display the calculated age -->
+                                <input type="number" class="form-control" value="<?php echo htmlspecialchars($age); ?>" id="age" name="age" required readonly>
+                            </div>
+
                 </div>
                 <div class="mb-3">
                     <label for="purok" class="form-label">Purok</label>
@@ -72,11 +90,6 @@
                         </option>
                     </select>
                 </div>
-
-                <div class="mb-3">
-                    <label for="address" class="form-label">Street</label>
-                    <input type="text" class="form-control" value="<?php echo htmlspecialchars($specificPatient['address']); ?>" id="address" name="address" required>
-                </div>
                 <div class="mb-3">
                     <label for="phone_number" class="form-label">Contact Number</label>
                     <input type="number" class="form-control" value="<?php echo htmlspecialchars($specificPatient['phone_number']); ?>" id="phone_number" name="phone_number" required>
@@ -107,4 +120,29 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
+<script>
+    function updateAge() {
+        const birthdate = document.getElementById("birthdate").value;
+        const ageInput = document.getElementById("age");
+
+        if (birthdate) {
+            const birthDateObj = new Date(birthdate);
+            const today = new Date();
+            let age = today.getFullYear() - birthDateObj.getFullYear();
+            const monthDifference = today.getMonth() - birthDateObj.getMonth();
+
+            // Adjust age if the current month and day haven't reached the birth month and day
+            if (
+                monthDifference < 0 || 
+                (monthDifference === 0 && today.getDate() < birthDateObj.getDate())
+            ) {
+                age--;
+            }
+
+            ageInput.value = age;
+        } else {
+            ageInput.value = ""; // Clear age if no birthdate is selected
+        }
+    }
+</script>
 <?php include_once('../../components/footer.php'); ?>

@@ -66,7 +66,6 @@ if(isset($_GET['PatientID'])){
      // Findings
      $cho_schedule = $patientServices->clean('cho_schedule', 'post');
      $name_of_attending_provider = $patientServices->clean('name_of_attending_provider', 'post');
-     $nature_of_visit = $patientServices->clean('nature_of_visit', 'post');
      $type_of_consultation = $patientServices->clean('type_of_consultation', 'post');
      $diagnosis = $patientServices->clean('diagnosis', 'post');
      $medication = $patientServices->clean('medication', 'post');
@@ -82,7 +81,7 @@ if(isset($_GET['PatientID'])){
             // Call create method to add the new patient
             $status = $patientServices->createHealthStatus($refferal_for,
                 $patientID, $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
-                $cho_schedule, $name_of_attending_provider, $nature_of_visit, $type_of_consultation, 
+                $cho_schedule, $name_of_attending_provider, $type_of_consultation, 
                 $diagnosis, $medication, $laboratory_findings, $admin_name
             );
             if($status == true){
@@ -101,7 +100,7 @@ if(isset($_GET['PatientID'])){
                 $status = $patientServices->updateHealthStatus(
                     $refferal_for,
                     $historyID, $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
-                    $cho_schedule, $name_of_attending_provider, $nature_of_visit, $type_of_consultation, 
+                    $cho_schedule, $name_of_attending_provider, $type_of_consultation, 
                     $diagnosis, $medication, $laboratory_findings, $admin_name
                 );
             }
@@ -142,10 +141,9 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
     $mname = $patientServices->clean('mname', 'post');
     $lname = $patientServices->clean('lname', 'post');
     $birthdate = $patientServices->clean('birthdate', 'post');
-    $age = $patientServices->clean('age', 'post');
-    $purok = $patientServices->clean('purok', 'post');
+    $purok = $_POST['purok'];
     $address = $patientServices->clean('address', 'post');
-    $phone_number = $patientServices->clean('phone_number', 'post');
+    $phone_number = $_POST['phone_number'];
     $civil_status = $patientServices->clean('civil_status', 'post');
     $sex = $patientServices->clean('sex', 'post');
 
@@ -160,7 +158,6 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
     // Findings
     $cho_schedule = $patientServices->clean('cho_schedule', 'post');
     $name_of_attending_provider = $patientServices->clean('name_of_attending_provider', 'post');
-    $nature_of_visit = $patientServices->clean('nature_of_visit', 'post');
     $type_of_consultation = $patientServices->clean('type_of_consultation', 'post');
     $diagnosis = $patientServices->clean('diagnosis', 'post');
     $medication = $patientServices->clean('medication', 'post');
@@ -170,9 +167,9 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
     if($_POST['action'] == 'create') {
         // Call create method to add the new patient
         $status = $patientServices->create($refferal_for,
-            $fname, $mname, $lname, $birthdate, $age, $purok, $address, $phone_number, $civil_status, $sex, 
+            $fname, $mname, $lname, $birthdate, $purok, $address, $phone_number, $civil_status, $sex, 
             $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
-            $cho_schedule, $name_of_attending_provider, $nature_of_visit, $type_of_consultation, 
+            $cho_schedule, $name_of_attending_provider, $type_of_consultation, 
             $diagnosis, $medication, $laboratory_findings, $admin_name
         );
         if ($status['status'] === true) {
@@ -180,7 +177,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
             $historyID = $status['historyID'];
             $patientID = $status['patientID'];
         
-            header("Location: done.php?Hid=$historyID&Pid=$patientID");
+            header("Location: test.php?Hid=$historyID&Pid=$patientID");
             exit(); // Stop further execution after redirection
         } else {
             // Redirect to create.php on failure
@@ -193,7 +190,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
     }else if($_POST['action'] == 'update' ) { 
          // Call create method to add the new patient
          $status = $patientServices->update(
-            $patientID, $fname, $mname, $lname, $birthdate, $age, $purok, $address, $phone_number, $civil_status, $sex, 
+            $patientID, $fname, $mname, $lname, $birthdate, $purok, $phone_number, 
+            $civil_status, $sex
         );
         if($status == true){
             // Redirect to index.php

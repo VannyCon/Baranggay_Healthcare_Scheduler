@@ -57,11 +57,11 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="birthdate" class="form-label">Birthdate</label>
-                        <input type="date" class="form-control" id="birthdate" name="birthdate" required>
+                        <input type="date" class="form-control" id="birthdate" name="birthdate" required onchange="updateAge()">
                     </div>
                     <div class="col-md-6">
                         <label for="age" class="form-label">Age</label>
-                        <input type="number" class="form-control" id="age" name="age" required>
+                        <input type="number" class="form-control" id="age" name="age" required readonly>
                     </div>
                 </div>
 
@@ -185,5 +185,30 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
+<script>
+    function updateAge() {
+        const birthdate = document.getElementById("birthdate").value;
+        const ageInput = document.getElementById("age");
+
+        if (birthdate) {
+            const birthDateObj = new Date(birthdate);
+            const today = new Date();
+            let age = today.getFullYear() - birthDateObj.getFullYear();
+            const monthDifference = today.getMonth() - birthDateObj.getMonth();
+
+            // Adjust age if the current month and day haven't reached the birth month and day
+            if (
+                monthDifference < 0 || 
+                (monthDifference === 0 && today.getDate() < birthDateObj.getDate())
+            ) {
+                age--;
+            }
+
+            ageInput.value = age;
+        } else {
+            ageInput.value = ""; // Clear age if no birthdate is selected
+        }
+    }
+</script>
 
 <?php include_once('../../components/footer.php'); ?>
