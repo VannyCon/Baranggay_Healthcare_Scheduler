@@ -37,27 +37,6 @@ if (session_status() === PHP_SESSION_NONE) {
 
   <div class="card p-4">
     <div class="table-responsive">
-      <script>
-          var messageText = "<?= $_SESSION['status'] ?? ''; ?>";
-          if (messageText) {
-              Swal.fire({
-                  title: "Sent Successfully",
-                  text: messageText,
-                  icon: "success"
-              });
-              <?php unset($_SESSION['status']); ?>
-          }
-
-          var errorText = "<?= $_SESSION['error'] ?? ''; ?>";
-          if (errorText) {
-              Swal.fire({
-                  title: "Error!",
-                  text: errorText,
-                  icon: "error"
-              });
-              <?php unset($_SESSION['error']); ?>
-          }
-      </script>
 
       <!-- Vital Signs Section -->
       <a href="index.php" class="btn btn-danger my-2"> Back </a>
@@ -214,7 +193,11 @@ if (session_status() === PHP_SESSION_NONE) {
                 </div>
               </div>
             </div>
-
+            <?php endforeach; ?>
+      <?php else: ?>
+        <p>No Health History found. </p>
+<?php endif; ?>
+            <?php include_once('../../components/footer.php'); ?>
           <script>
             function setSmsConfirmation(button) {
               var historyID = button.getAttribute('data-history-id');
@@ -227,12 +210,44 @@ if (session_status() === PHP_SESSION_NONE) {
           </script>
 
 
-  <?php endforeach; ?>
-<?php else: ?>
-  <p>No Health History found. </p>
 
-<?php endif; ?>
 
+
+<!-- Modal HTML (Bootstrap 5.3) -->
+<div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="statusModalLabel">Status</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <?php
+        if (isset($_GET['success'])) {
+          echo "<div class='alert alert-success' role='alert'>" . htmlspecialchars($_GET['success']) . "</div>";
+        }
+        ?>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add this script to trigger modal after page load -->
+<script>
+  window.onload = function() {
+    // Check if there is a success or error message in the URL
+    <?php if (isset($_GET['success']) || isset($_GET['error'])) { ?>
+      var myModal = new bootstrap.Modal(document.getElementById('statusModal'), {
+        keyboard: false
+      });
+      myModal.show();  // Show the modal
+    <?php } ?>
+  };
+</script>
 
 
 <!-- Button if no records are found -->
@@ -247,4 +262,3 @@ if (session_status() === PHP_SESSION_NONE) {
 
 
 
-<?php include_once('../../components/footer.php'); ?>

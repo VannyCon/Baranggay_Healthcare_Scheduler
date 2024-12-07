@@ -11,8 +11,6 @@
         header('Location: index.php');
         exit();
     }
-
-        //////////////////////////////////// SHOW DOWNLOAD BUTTON TO CREATE REFFERAL DOCS /////////////////////////////////////
 ?>
 <!-- Font Awesome CDN -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -29,10 +27,14 @@
                                 <i class="fas fa-check" style="font-size: 48px; color: white;"></i>
                             </div>
 
-                            <h5 class="mb-4">Successfully Created, Please Download the Refferal Form</h5>
+                            <h5 class="mb-4">Successfully Created, Please Download the Referral Form</h5>
 
                             <!-- Download Button -->
-                            <a type="button" href="download_pdf.php?Hid=<?php echo htmlspecialchars($historyID); ?>&Pid=<?php echo htmlspecialchars($patientID); ?>" class="btn btn-primary w-100">Download</a>
+                            <a id="downloadButton" href="test.php?Hid=<?php echo htmlspecialchars($historyID); ?>&Pid=<?php echo htmlspecialchars($patientID); ?>" class="btn btn-primary w-100 mb-2" onclick="showSMSButton(event)">Download</a>
+
+                            <!-- SMS Button (Initially Hidden) -->
+                            <a id="smsButton" href="sms.php?Hid=<?php echo htmlspecialchars($historyID); ?>&Pid=<?php echo htmlspecialchars($patientID); ?>" class="btn btn-success w-100 mb-2" style="display: none;">Send SMS</a>
+
                             <a type="button" href="index.php" class="text-decoration-none my-2 text-danger">Go back</a>
                         </div>
                     </div>
@@ -41,5 +43,23 @@
         </div>
     </section>
 </div>
+
+<script>
+    function showSMSButton(event) {
+        // Prevent the default action to allow the process of switching buttons first
+        event.preventDefault();
+
+        // Hide the download button
+        document.getElementById('downloadButton').style.display = 'none';
+
+        // Show the SMS button
+        document.getElementById('smsButton').style.display = 'block';
+
+        // Redirect to the download link after 1 second (to ensure button visibility)
+        setTimeout(function() {
+            window.location.href = event.target.href;
+        }, 1000);
+    }
+</script>
 
 <?php include_once('../../components/footer.php'); ?>

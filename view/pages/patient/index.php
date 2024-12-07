@@ -135,6 +135,29 @@ $referralSummary = $patientServices->getDataAnalysis();
     </div>
    
 
+<!-- Modal HTML (Bootstrap 5.3) -->
+<div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="statusModalLabel">Status</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <?php
+        if (isset($_GET['success'])) {
+          echo "<div class='alert alert-success' role='alert'>" . htmlspecialchars($_GET['success']) . "</div>";
+        }
+        ?>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
     <script>
     document.addEventListener("DOMContentLoaded", function () {
         const rowsPerPage = 10; // Adjust as needed
@@ -205,5 +228,15 @@ $referralSummary = $patientServices->getDataAnalysis();
         renderPagination();
     });
 </script>
-
+<script>
+  window.onload = function() {
+    // Check if there is a success or error message in the URL
+    <?php if (isset($_GET['success']) || isset($_GET['error'])) { ?>
+      var myModal = new bootstrap.Modal(document.getElementById('statusModal'), {
+        keyboard: false
+      });
+      myModal.show();  // Show the modal
+    <?php } ?>
+  };
+</script>
 <?php include_once('../../components/footer.php'); ?>

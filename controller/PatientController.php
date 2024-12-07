@@ -32,7 +32,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'deleteHealthHistory') {
     
     
     if ($result) {
-        header("Location: patient_history.php?PatientID=$patientID");
+        header("Location: patient_history.php?PatientID=$patientID&success=Health History deleted successfully");
         exit();
     } else {
         error_log("Deletion failed for ID: $id");
@@ -125,8 +125,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
     $result = $patientServices->delete($patientID);
     
     if ($result) {
-        header("Location: index.php");
-        exit();
+        header("Location: index.php?success=Patient deleted successfully");
     } else {
         error_log("Deletion failed for ID: $id");
         header("Location: index.php");
@@ -177,11 +176,11 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
             $historyID = $status['historyID'];
             $patientID = $status['patientID'];
         
-            header("Location: test.php?Hid=$historyID&Pid=$patientID");
+            header("Location: done.php?Hid=$historyID&Pid=$patientID");
             exit(); // Stop further execution after redirection
         } else {
             // Redirect to create.php on failure
-            header("Location: create.php");
+            header("Location: create.php?error=Failed Create!");
             exit(); // Ensure the script stops here too
         }
         
@@ -195,7 +194,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
         );
         if($status == true){
             // Redirect to index.php
-            header("Location: index.php"); 
+            header("Location: index.php?success=Successfully Updated!"); 
             exit(); // Important to stop the script after the redirection
         }else{
             header("Location: create.php"); 
