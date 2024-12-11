@@ -39,7 +39,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <div class="table-responsive">
 
       <!-- Vital Signs Section -->
-      <a href="index.php" class="btn btn-danger my-2"> Back </a>
+      <a href="patient.php" class="btn btn-danger my-2"> Back </a>
       <div class="card mb-4">
         <div class="card-header">Patient Information</div>
         <div class="card-body">

@@ -11,7 +11,7 @@
         //////////////////////////////////// UPDATE PATIENT INFO ONLY NOT INCLUDE THE PATIENT HISTORY /////////////////////////////////////
 ?>
 <div class="container mt-5">
-<a href="index.php" class="btn btn-danger my-2"> Back </a>
+<a href="patient.php" class="btn btn-danger my-2"> Back </a>
     <h2 class="mb-4">Patient Information Form</h2>
     <form action="" method="POST">
         <!-- Patient Information Section -->
