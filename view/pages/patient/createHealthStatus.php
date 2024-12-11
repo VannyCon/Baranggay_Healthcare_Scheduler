@@ -12,9 +12,10 @@
         
     <form action="" method="POST">
     <div class="card mb-4">
-            <div class="card-header">Choose Refferal Type</div>
+        <div class="card-header">Refferal</div>
             <div class="card-body">
-            <select class="form-select" name="refferal_for" id="refferal_for" required>
+            <label for="fname" class="form-label">Service</label>
+            <select class="form-select mb-3" name="refferal_for" id="refferal_for" required>
                 <option value="" disabled selected>Select a barangay service</option>
                 <option value="DP">Dengue Prevention and Management</option>
                 <option value="PR">Prenatal Referral</option>
@@ -33,7 +34,12 @@
                 <option value="MHS">Mental Health Support</option>
                 <option value="CPS">Child Protection Services</option>
             </select>
-
+            <label for="fname" class="form-label">Center</label>
+              <select class="form-select" name="refferal_from" id="refferal_from" required>
+                  <option value="" disabled selected>Select a Center</option>
+                  <option value="JonobJonob Center">JonobJonob Center</option>
+                  <option value="Habitat Center">Habitat Center</option>
+              </select>
             </div>
         </div>
         <!-- Vital Signs Section -->

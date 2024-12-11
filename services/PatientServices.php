@@ -117,6 +117,7 @@ class PatientServices extends config {
                         v.height, 
                         f.id AS findings_id, 
                         f.refferal_for,
+                        f.refferal_from,
                         f.cho_schedule, 
                         f.name_of_attending_provider, 
                         f.type_of_consultation, 
@@ -173,6 +174,7 @@ class PatientServices extends config {
                         f.name_of_attending_provider, 
                         f.type_of_consultation, 
                         f.refferal_for, 
+                        f.refferal_from, 
                         f.diagnosis, 
                         f.medication, 
                         f.laboratory_findings, 
@@ -271,6 +273,7 @@ class PatientServices extends config {
                         vs.weight,
                         vs.height,
                         f.refferal_for,
+                        f.refferal_from,
                         f.cho_schedule,
                         f.name_of_attending_provider,
                         f.type_of_consultation,
@@ -313,7 +316,7 @@ class PatientServices extends config {
 
     // CREATE PATIENT
     public function create(
-        $refferal_for, $fname, $mname, $lname, $birthdate, $purok, $address, $phone_number, $civil_status, $sex, $religion, $occupation, $guardian,
+        $refferal_for, $refferal_from, $fname, $mname, $lname, $birthdate, $purok, $address, $phone_number, $civil_status, $sex, $religion, $occupation, $guardian,
         $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
         $cho_schedule, $name_of_attending_provider, $type_of_consultation, 
         $diagnosis, $medication, $laboratory_findings, $admin_name
@@ -379,12 +382,13 @@ class PatientServices extends config {
             $stmt3->execute();
 
             // Prepare the third query (tbl_findings)
-            $findings_query = "INSERT INTO `tbl_findings`(`patient_id_fk`,`history_id_fk`, `refferal_for`, `cho_schedule`, `name_of_attending_provider`, `type_of_consultation`, `diagnosis`, `medication`, `laboratory_findings`)
-                            VALUES (:patientID, :historyID, :refferal_for, :cho_schedule, :name_of_attending_provider, :type_of_consultation, :diagnosis, :medication, :laboratory_findings)";
+            $findings_query = "INSERT INTO `tbl_findings`(`patient_id_fk`,`history_id_fk`, `refferal_for`, `refferal_from`, `cho_schedule`, `name_of_attending_provider`, `type_of_consultation`, `diagnosis`, `medication`, `laboratory_findings`)
+                            VALUES (:patientID, :historyID, :refferal_for, :refferal_from, :cho_schedule, :name_of_attending_provider, :type_of_consultation, :diagnosis, :medication, :laboratory_findings)";
             $stmt4 = $this->pdo->prepare($findings_query);
             $stmt4->bindParam(':patientID', $patientID);
             $stmt4->bindParam(':historyID', $historyID);
             $stmt4->bindParam(':refferal_for', $refferal_for);
+            $stmt4->bindParam(':refferal_from', $refferal_from);
             $stmt4->bindParam(':cho_schedule', $cho_schedule);
             $stmt4->bindParam(':name_of_attending_provider', $name_of_attending_provider);
             $stmt4->bindParam(':type_of_consultation', $type_of_consultation);
@@ -496,7 +500,7 @@ class PatientServices extends config {
 
     // CREATE PATIENT HEALTH HISTORY
     public function createHealthStatus( 
-        $refferal_for, $patientID, $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
+        $refferal_for, $refferal_from, $patientID, $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
         $cho_schedule, $name_of_attending_provider, $type_of_consultation, 
         $diagnosis, $medication, $laboratory_findings, $admin_name
     ) {
@@ -535,12 +539,13 @@ class PatientServices extends config {
             $stmt2->execute();
 
             // Prepare the third query (tbl_findings)
-            $findings_query = "INSERT INTO `tbl_findings`(`patient_id_fk`,`history_id_fk`,   `refferal_for`, `cho_schedule`, `name_of_attending_provider`, `type_of_consultation`, `diagnosis`, `medication`, `laboratory_findings`)
-                            VALUES (:patientID, :historyID, :refferal_for, :cho_schedule, :name_of_attending_provider, :type_of_consultation, :diagnosis, :medication, :laboratory_findings)";
+            $findings_query = "INSERT INTO `tbl_findings`(`patient_id_fk`,`history_id_fk`,   `refferal_for`, `refferal_from`, `cho_schedule`, `name_of_attending_provider`, `type_of_consultation`, `diagnosis`, `medication`, `laboratory_findings`)
+                            VALUES (:patientID, :historyID, :refferal_for, :refferal_from, :cho_schedule, :name_of_attending_provider, :type_of_consultation, :diagnosis, :medication, :laboratory_findings)";
             $stmt3 = $this->pdo->prepare($findings_query);
             $stmt3->bindParam(':patientID', $patientID);
             $stmt3->bindParam(':historyID', $historyID);
             $stmt3->bindParam(':refferal_for', $refferal_for);
+            $stmt3->bindParam(':refferal_from', $refferal_from);
             $stmt3->bindParam(':cho_schedule', $cho_schedule);
             $stmt3->bindParam(':name_of_attending_provider', $name_of_attending_provider);
             $stmt3->bindParam(':type_of_consultation', $type_of_consultation);
@@ -569,7 +574,7 @@ class PatientServices extends config {
     
     // CREATE PATIENT HEALTH HISTORY
     public function updateHealthStatus( 
-        $refferal_for, $historyID, $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
+        $refferal_for,$refferal_from, $historyID, $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
         $cho_schedule, $name_of_attending_provider, $type_of_consultation, 
         $diagnosis, $medication, $laboratory_findings, $admin_name
     ) {
@@ -602,10 +607,11 @@ class PatientServices extends config {
             $stmt2->execute();
 
             // Prepare the third query (tbl_findings)
-            $findings_query = "UPDATE `tbl_findings` SET `cho_schedule`=:cho_schedule, `refferal_for`=:refferal_for,`name_of_attending_provider`=:name_of_attending_provider,`type_of_consultation`=:type_of_consultation,`diagnosis`=:diagnosis,`medication`=:medication,`laboratory_findings`=:laboratory_findings WHERE history_id_fk = :historyID";
+            $findings_query = "UPDATE `tbl_findings` SET `cho_schedule`=:cho_schedule, `refferal_for`=:refferal_for, `refferal_from`=:refferal_from, `name_of_attending_provider`=:name_of_attending_provider,`type_of_consultation`=:type_of_consultation,`diagnosis`=:diagnosis,`medication`=:medication,`laboratory_findings`=:laboratory_findings WHERE history_id_fk = :historyID";
             $stmt3 = $this->pdo->prepare($findings_query);
             $stmt3->bindParam(':historyID', $historyID);
             $stmt3->bindParam(':refferal_for', $refferal_for);
+            $stmt3->bindParam(':refferal_from', $refferal_from);
             $stmt3->bindParam(':cho_schedule', $cho_schedule);
             $stmt3->bindParam(':name_of_attending_provider', $name_of_attending_provider);
             $stmt3->bindParam(':type_of_consultation', $type_of_consultation);

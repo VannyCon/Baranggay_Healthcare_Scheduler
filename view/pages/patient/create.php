@@ -12,9 +12,10 @@
     <form action="" method="POST" id="createForm">
 
     <div class="card mb-4">
-            <div class="card-header">Choose Refferal Type</div>
+            <div class="card-header">Refferal</div>
             <div class="card-body">
-            <select class="form-select" name="refferal_for" id="refferal_for" required>
+            <label for="fname" class="form-label">Service</label>
+            <select class="form-select mb-3" name="refferal_for" id="refferal_for" required>
                 <option value="" disabled selected>Select a barangay service</option>
                 <option value="DP">Dengue Prevention and Management</option>
                 <option value="PR">Prenatal Referral</option>
@@ -33,9 +34,15 @@
                 <option value="MHS">Mental Health Support</option>
                 <option value="CPS">Child Protection Services</option>
             </select>
-
+            <label for="fname" class="form-label">Center</label>
+              <select class="form-select" name="refferal_from" id="refferal_from" required>
+                  <option value="" disabled selected>Select a Center</option>
+                  <option value="JonobJonob Center">JonobJonob Center</option>
+                  <option value="Habitat Center">Habitat Center</option>
+              </select>
             </div>
         </div>
+
         <!-- Patient Information Section -->
         <div class="card mb-4">
             <div class="card-header">Patient Information</div>
@@ -65,7 +72,7 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="age" class="form-label">Province</label>
+                    <label for="province" class="form-label">Province</label>
                     <select class="form-select" name="province" id="Province" required>
                         <option value="" disabled selected>Select a Province</option>
                         <option value="Negros Occidental">Negros Occidental</option>
@@ -88,7 +95,7 @@
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="age" class="form-label">Purok</label>
+                    <label for="purok" class="form-label">Purok</label>
                     <select class="form-select" name="purok" id="Purok" required>
                         <option value="" disabled selected>Select a Purok</option>
                         <option value="Prk. Napungalan 1">Prk. Napungalan 1</option>
@@ -261,9 +268,15 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
-              <h6 class="border-bottom pb-2">Referral Type</h6>
+              <h6 class="border-bottom pb-2"><strong>Service</strong></h6>
               <p id="preview_refferal_for"></p>
+          
             </div>
+            <div class="col-12">
+              <h6 class="border-bottom pb-2"><strong>Referral From</strong></h6>
+              <p id="preview_refferal_from"></p>
+            </div>
+           
             
             <div class="col-12 mt-3">
               <h6 class="border-bottom pb-2">Patient Information</h6>
@@ -355,7 +368,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Referral Type
         const referralSelect = document.getElementById('refferal_for');
         document.getElementById('preview_refferal_for').textContent = referralSelect.options[referralSelect.selectedIndex].text;
-
+        const referralFromSelect = document.getElementById('refferal_from');
+        document.getElementById('preview_refferal_from').textContent = referralFromSelect.options[referralFromSelect.selectedIndex].text;
         // Patient Information
         document.getElementById('preview_fname').textContent = document.getElementById('fname').value;
         document.getElementById('preview_mname').textContent = document.getElementById('mname').value;

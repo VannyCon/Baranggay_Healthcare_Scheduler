@@ -137,8 +137,8 @@ if (session_status() === PHP_SESSION_NONE) {
                   : "Unknown Service";
 
               ?>
-              <h5><strong> Refferal for:</strong> <span class="text-info"><?php echo htmlspecialchars($refferalForMeaning); ?></span></h5>
-
+              <h5><strong> Refferal for:</strong> <span class="text-primary"><?php echo htmlspecialchars($refferalForMeaning); ?></span></h5>
+              <p><strong> Refferal from:</strong> <span class="text-info"><?php echo htmlspecialchars($getHealthHistory['refferal_from']); ?></span></p>
               <br>
               <div class="row mb-3">
                 <div class="col-md-6">

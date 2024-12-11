@@ -54,7 +54,7 @@ if(isset($_GET['PatientID'])){
     $getHealthHistorys = $patientServices->getPatientHistory($patientID);
 
      $refferal_for = $patientServices->clean('refferal_for', 'post');
-
+     $refferal_from = $patientServices->clean('refferal_from', 'post');
      // Vital Signs
      $blood_pressure = $patientServices->clean('blood_pressure', 'post');
      $temperature = $patientServices->clean('temperature', 'post');
@@ -79,7 +79,7 @@ if(isset($_GET['PatientID'])){
 
        if($_POST['action'] == 'createHealthStatus'){
             // Call create method to add the new patient
-            $status = $patientServices->createHealthStatus($refferal_for,
+            $status = $patientServices->createHealthStatus($refferal_for, $refferal_from,
                 $patientID, $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
                 $cho_schedule, $name_of_attending_provider, $type_of_consultation, 
                 $diagnosis, $medication, $laboratory_findings, $admin_name
@@ -98,7 +98,7 @@ if(isset($_GET['PatientID'])){
                 $historyID = $_GET['HistoryID'];
                 // Call create method to add the new patient
                 $status = $patientServices->updateHealthStatus(
-                    $refferal_for,
+                    $refferal_for, $refferal_from,
                     $historyID, $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
                     $cho_schedule, $name_of_attending_provider, $type_of_consultation, 
                     $diagnosis, $medication, $laboratory_findings, $admin_name
@@ -135,6 +135,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
 
 {
     $refferal_for = $patientServices->clean('refferal_for', 'post');
+    $refferal_from = $patientServices->clean('refferal_from', 'post');
    // Clean input data
     $fname = $patientServices->clean('fname', 'post');
     $mname = $patientServices->clean('mname', 'post');
@@ -174,7 +175,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
     if($_POST['action'] == 'create') {
         // Call create method to add the new patient
         $status = $patientServices->create(
-            $refferal_for, $fname, $mname, $lname, $birthdate, $purok, $address, $phone_number, $civil_status, $sex, $religion, $occupation, $guardian,
+            $refferal_for, $refferal_from, $fname, $mname, $lname, $birthdate, $purok, $address, $phone_number, $civil_status, $sex, $religion, $occupation, $guardian,
             $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
             $cho_schedule, $name_of_attending_provider, $type_of_consultation, 
             $diagnosis, $medication, $laboratory_findings, $admin_name
@@ -209,13 +210,6 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
         }
     }
 }
-
-
-
-
-
-
-
 
 
 

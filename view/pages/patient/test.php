@@ -132,12 +132,30 @@ if (isset($_GET['Hid']) && isset($_GET['Pid'])) {
     // Add a line break at the end
     $cellLeft->addTextBreak(1);
 
+    // Correctly initialize DateTime and format date and time
+    $history_datetime = new DateTime($historyInfo['history_date']);
+    $history_date = $history_datetime->format('Y-m-d'); // Date in YYYY-MM-DD format
+    $history_time = $history_datetime->format('H:i:s'); // Time in HH:MM:SS format
 
+    // Add text content to $cellLeft
     $cellLeft->addText("REFERRED FROM:", ['bold' => true, 'size' => 11]);
-    $cellLeft->addText("Facility: __________________", ['size' => 11], $paragraphStyle);
-    $cellLeft->addText("Date: ____________________", ['size' => 11], $paragraphStyle);
-    $cellLeft->addText("Time: ____________________", ['size' => 11], $paragraphStyle);
+    // Add text with the formatted date and time
+    $textRun = $cellLeft->addTextRun($paragraphStyle); // Apply spacing here
+    $textRun->addText("Facility: ", ['size' => 11], $paragraphStyle);
+    $textRun->addText("{$historyInfo['refferal_from']}", ['underline' => 'single','size' => 11], $paragraphStyle);
+
+    // Date Field
+    $textRun2 = $cellLeft->addTextRun($paragraphStyle); // Apply spacing here
+    $textRun2->addText("Date: ", ['size' => 11], $paragraphStyle);
+    $textRun2->addText($date, ['underline' => 'single','size' => 11], $paragraphStyle);
+
+    // Time Field
+    $textRun3 = $cellLeft->addTextRun($paragraphStyle); // Apply spacing here
+    $textRun3->addText("Time: ", ['size' => 11], $paragraphStyle);
+    $textRun3->addText($time, ['underline' => 'single','size' => 11], $paragraphStyle);
+    // Add a line break for spacing
     $cellLeft->addTextBreak(1);
+
 
     // Remove space after paragraph
 
@@ -396,6 +414,8 @@ if (isset($_GET['Hid']) && isset($_GET['Pid'])) {
     $date = $datetime->format('Y-m-d'); // Date in YYYY-MM-DD format
     $time = $datetime->format('H:i:s'); // Time in HH:MM:SS format
 
+
+    $cellBottomLeft->addText("REFERRED TO:", ['bold' => true, 'size' => 11]);
     // Add text with the formatted date and time
     $textRun = $cellBottomLeft->addTextRun($paragraphStyle); // Apply spacing here
     $textRun->addText("Facility : ", ['size' => 11], $paragraphStyle);
@@ -414,11 +434,25 @@ if (isset($_GET['Hid']) && isset($_GET['Pid'])) {
     // Add a line break at the end
     $cellBottomLeft->addTextBreak(1);
 
+    // Add text content to $cellLeft
     $cellBottomLeft->addText("REFERRED FROM:", ['bold' => true, 'size' => 11]);
-    $cellBottomLeft->addText("Facility: __________________", ['size' => 11], $paragraphStyle);
-    $cellBottomLeft->addText("Date: ____________________", ['size' => 11], $paragraphStyle);
-    $cellBottomLeft->addText("Time: ____________________", ['size' => 11], $paragraphStyle);
+    // Add text with the formatted date and time
+    $textRun = $cellBottomLeft->addTextRun($paragraphStyle); // Apply spacing here
+    $textRun->addText("Facility:", ['size' => 11], $paragraphStyle);
+    $textRun->addText("{$historyInfo['refferal_from']}", ['underline' => 'single','size' => 11], $paragraphStyle);
+
+    // Date Field
+    $textRun2 = $cellBottomLeft->addTextRun($paragraphStyle); // Apply spacing here
+    $textRun2->addText("Date:", ['size' => 11], $paragraphStyle);
+    $textRun2->addText($date, ['underline' => 'single','size' => 11], $paragraphStyle);
+
+    // Time Field
+    $textRun3 = $cellBottomLeft->addTextRun($paragraphStyle); // Apply spacing here
+    $textRun3->addText("Time:", ['size' => 11], $paragraphStyle);
+    $textRun3->addText($time, ['underline' => 'single','size' => 11], $paragraphStyle);
+    // Add a line break for spacing
     $cellBottomLeft->addTextBreak(1);
+    
     $cellBottomLeft->addText("ACCOMPLISH BY:", ['bold' => true, 'size' => 11]);
     $cellBottomLeft->addText("__________________________", ['size' => 11], $paragraphStyle);
     $cellBottomLeft->addText("  Printed Name and Signature", ['size' => 11]);

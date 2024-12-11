@@ -13,6 +13,7 @@
         <div class="card mb-4">
             <div class="card-header">Choose Refferal Type</div>
             <div class="card-body">
+            <label for="Services" class="form-label">Services</label>
             <select class="form-select" name="refferal_for" id="refferal_for" required>
                 <option value="" disabled <?php echo empty($specificHistory['refferal_for']) ? 'selected' : ''; ?>>Select a barangay service</option>
                 <option value="DP" <?php echo $specificHistory['refferal_for'] === 'DP' ? 'selected' : ''; ?>>Dengue Prevention and Management</option>
@@ -32,7 +33,12 @@
                 <option value="MHS" <?php echo $specificHistory['refferal_for'] === 'MHS' ? 'selected' : ''; ?>>Mental Health Support</option>
                 <option value="CPS" <?php echo $specificHistory['refferal_for'] === 'CPS' ? 'selected' : ''; ?>>Child Protection Services</option>
             </select>
-
+            <label for="center" class="form-label">Center</label>
+              <select class="form-select" name="refferal_from" id="refferal_from" required>
+                  <option value="" disabled selected>Select a Center</option>
+                  <option value="JonobJonob Center" <?php echo $specificHistory['refferal_from'] === 'JonobJonob Center' ? 'selected' : ''; ?>>JonobJonob Center</option>
+                  <option value="Habitat Center" <?php echo $specificHistory['refferal_from'] === 'Habitat Center' ? 'selected' : ''; ?>>Habitat Center</option>
+              </select>
 
             </div>
         </div>  
