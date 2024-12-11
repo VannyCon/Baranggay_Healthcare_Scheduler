@@ -230,37 +230,36 @@ if (isset($_GET['Hid']) && isset($_GET['Pid'])) {
     $textRun->addText(" {$age} ", ['underline' => 'single', 'size' => 11]);
     $textRun->addText(" SEX: ", ['size' => 11, 'bold' => true]);
     $textRun->addText("  {$patientInfo['sex']} ", ['underline' => 'single', 'size' => 11]);
-    $textRun->addText(" BIRTHDATE: ", ['size' => 11]);
+    $textRun->addText(" BIRTHDATE: ",['size' => 11, 'bold' => true]);
 
     // Format birthdate
     $birthdate = new DateTime($patientInfo['birthdate']); // Assuming 'birthdate' is in 'YYYY-MM-DD' format
     $formattedBirthdate = $birthdate->format('F j, Y'); // Format as "Month Day, Year"
     $textRun->addText(" {$formattedBirthdate}   ", ['underline' => 'single', 'size' => 11]);
 
+    $address = $patientInfo['address'].",".$patientInfo['purok'];
     // Add Address
     $textRun = $cellRight->addTextRun($paragraphStyle4); // Apply spacing here
     $textRun->addText("ADDRESS: ", ['size' => 11, 'bold' => true]);
-    $textRun->addText("{$patientInfo['purok']}", ['underline' => 'single', 'size' => 11]);
+    $textRun->addText("{$address}", ['underline' => 'single', 'size' => 11]);
 
     // Add Age, Sex, and Birthdate
     $textRun = $cellRight->addTextRun($paragraphStyle4); // Apply spacing here
     $textRun->addText("OCCUPATION: ", ['size' => 11, 'bold' => true]);
-    $textRun->addText("    {$age}    ", ['underline' => 'single', 'size' => 11]);
+    $textRun->addText("    {$patientInfo['occupation']}    ", ['underline' => 'single', 'size' => 11]);
     $textRun->addText(" RELIGION: ", ['size' => 11, 'bold' => true]);
-    $textRun->addText("     {$patientInfo['sex']}     ", ['underline' => 'single', 'size' => 11]);
-
+    $textRun->addText("  {$patientInfo['religion']}     ", ['underline' => 'single', 'size' => 11]);
+    
     $paragraphStyle6 = [
         'spacing' => 1.15,    // Line spacing
         'spaceAfter' => 120,  // Space after the line in twips
         'spaceBefore' => 120, // Space before the line in twips
     ];
     
-    // Add Address
+    // Add Guardian information
     $textRun = $cellRight->addTextRun($paragraphStyle6); // Apply spacing here
     $textRun->addText("PARENT/GUARDIAN (In case of a minor): ", ['size' => 11, 'bold' => true]);
-    $textRun->addText("Mary ", ['underline' => 'single', 'size' => 11]);
-    $textRun->addText("D. ", ['underline' => 'single', 'size' => 11]);
-    $textRun->addText("Asadsad", ['underline' => 'single', 'size' => 11]);
+    $textRun->addText("     {$patientInfo['guardian']}     ", ['underline' => 'single', 'size' => 11]);
     
 
     // Add Chief Complaint section
@@ -481,37 +480,36 @@ if (isset($_GET['Hid']) && isset($_GET['Pid'])) {
     $textRun->addText(" {$age} ", ['underline' => 'single', 'size' => 11]);
     $textRun->addText(" SEX: ", ['size' => 11, 'bold' => true]);
     $textRun->addText("  {$patientInfo['sex']}  ", ['underline' => 'single', 'size' => 11]);
-    $textRun->addText(" BIRTHDATE: ", ['size' => 11]);
+    $textRun->addText(" BIRTHDATE: ", ['size' => 11, 'bold' => true]);
 
     // Format birthdate
     $birthdate = new DateTime($patientInfo['birthdate']); // Assuming 'birthdate' is in 'YYYY-MM-DD' format
     $formattedBirthdate = $birthdate->format('F j, Y'); // Format as "Month Day, Year"
     $textRun->addText(" {$formattedBirthdate}     ", ['underline' => 'single', 'size' => 11]);
-
+    $address = $patientInfo['address'].",".$patientInfo['purok'];
     // Add Address
     $textRun = $cellRight->addTextRun($paragraphStyle4); // Apply spacing here
     $textRun->addText("ADDRESS: ", ['size' => 11, 'bold' => true]);
-    $textRun->addText("{$patientInfo['purok']}", ['underline' => 'single', 'size' => 11]);
+    $textRun->addText("{$address}", ['underline' => 'single', 'size' => 11]);
 
     // Add Age, Sex, and Birthdate
     $textRun = $cellRight->addTextRun($paragraphStyle4); // Apply spacing here
     $textRun->addText("OCCUPATION: ", ['size' => 11, 'bold' => true]);
-    $textRun->addText("   {$age}   ", ['underline' => 'single', 'size' => 11]);
+    $textRun->addText("    {$patientInfo['occupation']}    ", ['underline' => 'single', 'size' => 11]);
     $textRun->addText(" RELIGION: ", ['size' => 11, 'bold' => true]);
-    $textRun->addText("     {$patientInfo['sex']}     ", ['underline' => 'single', 'size' => 11]);
-
+    $textRun->addText("  {$patientInfo['religion']}     ", ['underline' => 'single', 'size' => 11]);
+    
     $paragraphStyle6 = [
         'spacing' => 1.15,    // Line spacing
         'spaceAfter' => 120,  // Space after the line in twips
         'spaceBefore' => 120, // Space before the line in twips
     ];
     
-    // Add Address
-    $textRun = $cellRight->addTextRun($paragraphStyle6); // Apply spacing here
-    $textRun->addText("PARENT/GUARDIAN (In case of a minor): ", ['size' => 11, 'bold' => true]);
-    $textRun->addText("Mary ", ['underline' => 'single', 'size' => 11]);
-    $textRun->addText("D. ", ['underline' => 'single', 'size' => 11]);
-    $textRun->addText("Asadsad", ['underline' => 'single', 'size' => 11]);
+  // Add Guardian information
+  $textRun = $cellRight->addTextRun($paragraphStyle6); // Apply spacing here
+  $textRun->addText("PARENT/GUARDIAN (In case of a minor): ", ['size' => 11, 'bold' => true]);
+  $textRun->addText("     {$patientInfo['guardian']}     ", ['underline' => 'single', 'size' => 11]);
+  
     
 
     // Add Chief Complaint section

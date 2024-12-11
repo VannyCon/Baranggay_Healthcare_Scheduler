@@ -50,7 +50,7 @@ class PatientServices extends config {
     //READ ALL THE PATIENT
     public function getAllPatient() {
         try {
-            $query = "SELECT `id`, `patient_id`,CONCAT(`fname`, ' ', `mname`, ' ', `lname`) AS full_name,  `birthdate`, `purok`, `phone_number`, `civil_status`, `sex` FROM `tbl_patient_info` WHERE 1";
+            $query = "SELECT `id`, `patient_id`,CONCAT(`fname`, ' ', `mname`, ' ', `lname`) AS full_name,  `birthdate`, `purok`, `phone_number`, `civil_status`, `sex`, `religion`,`occupation`, `guardian`  FROM `tbl_patient_info` WHERE 1";
             $stmt = $this->pdo->prepare($query); // Prepare the query
             $stmt->execute(); // Execute the query
             return $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all results
@@ -58,7 +58,32 @@ class PatientServices extends config {
             echo "Error: " . $e->getMessage();
         }
     }
-    
+
+    //Data Gathering and Analysis
+    public function getDiagnosisData() {
+        try {
+            $query = "SELECT `diagnosis`, `diagnosis_count` FROM `view_diagnosis_count` WHERE 1;";
+            $stmt = $this->pdo->prepare($query); // Prepare the query
+            $stmt->execute(); // Execute the query
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all results
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
+
+    //Data Gathering and Analysis
+    public function getPurokData() {
+        try {
+            $query = "SELECT `purok`, `purok_count` FROM `view_purok_count` WHERE 1;";
+            $stmt = $this->pdo->prepare($query); // Prepare the query
+            $stmt->execute(); // Execute the query
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all results
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
+
+        
     
     //Data Gathering and Analysis
     public function getDataAnalysis() {
@@ -189,6 +214,9 @@ class PatientServices extends config {
                         pi.phone_number,
                         pi.civil_status,
                         pi.sex,
+                        pi.religion,
+                        pi.occupation,
+                        pi.guardian,
                         h.date,
                         h.created_by,
                         h.last_update
@@ -233,6 +261,9 @@ class PatientServices extends config {
                         pi.phone_number,
                         pi.civil_status,
                         pi.sex,
+                        pi.religion,
+                        pi.occupation,
+                        pi.guardian,
                         vs.blood_pressure,
                         vs.temperature,
                         vs.pulse_rate,
@@ -282,7 +313,7 @@ class PatientServices extends config {
 
     // CREATE PATIENT
     public function create(
-        $refferal_for, $fname, $mname, $lname, $birthdate, $purok, $address, $phone_number, $civil_status, $sex, 
+        $refferal_for, $fname, $mname, $lname, $birthdate, $purok, $address, $phone_number, $civil_status, $sex, $religion, $occupation, $guardian,
         $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
         $cho_schedule, $name_of_attending_provider, $type_of_consultation, 
         $diagnosis, $medication, $laboratory_findings, $admin_name
@@ -297,8 +328,8 @@ class PatientServices extends config {
             $patientID = $this->generatePatientID();
 
             // Prepare the first query (tbl_patient_info)
-            $tbl_patient_info_query = "INSERT INTO `tbl_patient_info`(`patient_id`, `fname`, `mname`, `lname`, `birthdate`, `purok`, `address`, `phone_number`,`civil_status`, `sex`)
-                                VALUES (:patientID, :fname, :mname, :lname, :birthdate, :purok, :address, :phone_number, :civil_status, :sex)";
+            $tbl_patient_info_query = "INSERT INTO `tbl_patient_info`(`patient_id`, `fname`, `mname`, `lname`, `birthdate`, `purok`, `address`, `phone_number`, `civil_status`, `sex`, `religion`, `occupation`, `guardian`)
+                                VALUES (:patientID, :fname, :mname, :lname, :birthdate, :purok, :address, :phone_number, :civil_status, :sex, :religion, :occupation, :guardian)";
             $stmt1 = $this->pdo->prepare($tbl_patient_info_query);
             $stmt1->bindParam(':patientID', $patientID);
             $stmt1->bindParam(':fname', $fname);
@@ -310,6 +341,10 @@ class PatientServices extends config {
             $stmt1->bindParam(':phone_number', $phone_number);
             $stmt1->bindParam(':civil_status', $civil_status);
             $stmt1->bindParam(':sex', $sex);
+            $stmt1->bindParam(':religion', $religion);
+            $stmt1->bindParam(':occupation', $occupation);
+            $stmt1->bindParam(':guardian', $guardian);
+
 
             // Execute the first query
             $stmt1->execute();
@@ -384,8 +419,8 @@ class PatientServices extends config {
 
     // UPDATE PATIENT
     public function update(
-        $patientID, $fname, $mname, $lname, $birthdate, $purok, $phone_number, 
-        $civil_status, $sex
+        $patientID, $fname, $mname, $lname, $birthdate, $purok, $address, $phone_number, 
+        $civil_status, $sex, $religion, $occupation, $guardian
     ) {
         try {
             // Begin the transaction
@@ -396,8 +431,8 @@ class PatientServices extends config {
             // Prepare the first query (tbl_patient_info)
             $tbl_patient_info_query = "UPDATE `tbl_patient_info` 
                                 SET `fname` = :fname, `mname` = :mname, `lname` = :lname, 
-                                    `birthdate` = :birthdate,`purok` = :purok, `phone_number` = :phone_number, 
-                                    `civil_status` = :civil_status, `sex` = :sex 
+                                    `birthdate` = :birthdate,`address` = :address, `purok` = :purok, `phone_number` = :phone_number, 
+                                    `civil_status` = :civil_status, `sex` = :sex , `religion` = :religion , `occupation` = :occupation , `guardian` = :guardian 
                                 WHERE `patient_id` = :patientID";
             $stmt1 = $this->pdo->prepare($tbl_patient_info_query);
             $stmt1->bindParam(':patientID', $patientID);
@@ -406,9 +441,13 @@ class PatientServices extends config {
             $stmt1->bindParam(':lname', $lname);
             $stmt1->bindParam(':birthdate', $birthdate);
             $stmt1->bindParam(':purok', $purok);
+            $stmt1->bindParam(':address', $address);
             $stmt1->bindParam(':phone_number', $phone_number);
             $stmt1->bindParam(':civil_status', $civil_status);
             $stmt1->bindParam(':sex', $sex);
+            $stmt1->bindParam(':religion', $religion);
+            $stmt1->bindParam(':occupation', $occupation);
+            $stmt1->bindParam(':guardian', $guardian);
 
             // Execute the first query
             $stmt1->execute();

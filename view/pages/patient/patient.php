@@ -4,8 +4,6 @@
   include_once('../../../controller/PatientController.php');
   
 $referralSummary = $patientServices->getDataAnalysis();
-$getDiagnosis = $patientServices->getDiagnosisData();
-$getPurok = $patientServices->getPurokData();
       //////////////////////////////////// DISPLAY ALL THE PATIENTS /////////////////////////////////////
 ?>
 
@@ -33,61 +31,76 @@ $getPurok = $patientServices->getPurokData();
 </div>
 
 
-  <div class="p-3">
-    <h3><strong>Dashboard</strong></h3>
-    <!-- Card for Data Graph -->
-    <div class="card mb-3">
-      <div class="card-header">Data Graph</div>
-      <div class="card-body">
-        <div class="row">
-          <!-- Canvas for Higher Cases -->
-          <div class="mt-2 col-12">
-            <canvas id="higherCases"></canvas>
-          </div>
-          <!-- Canvas for Types of Diagnosis -->
-          <div class="mt-2 col-12">
-            <canvas id="typesDiagnosis"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
+<div class="p-3">
+<h3><strong>Patients</strong></h3>
+<div class="card p-4">
+        <p><strong>Patient Table</strong> </p>
 
-    <!-- Card for Data Analysis -->
-    <div class="card mt-4">
-      <div class="card-header">
-        <strong>Data Analysis this Year</strong>
-      </div>
-      <div class="card-body">
+        <!-- Search Input -->
+        <div class="mb-3 d-flex justify-content-between">
+            <a type="button" class="btn btn-outline-warning" href="create.php">Create</a>
+            <input type="text" id="searchInput" class="form-control w-50" placeholder="Search for owner...">
+        </div>
+        
         <div class="table-responsive">
-          <!-- Table for Referral Summary -->
-          <table border="1" class="table" id="referralSummaryTable">
-            <thead>
-              <tr>
-                <th>Service</th>
-                <th>Total Count</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php if (!empty($referralSummary)): ?>
-                <?php foreach ($referralSummary as $row): ?>
-                  <tr>
-                    <td><?php echo htmlspecialchars($row['service_name']); ?></td>
-                    <td><?php echo htmlspecialchars($row['total_count']); ?></td>
-                  </tr>
-                <?php endforeach; ?>
-              <?php else: ?>
-                <tr>
-                  <td colspan="2" class="text-center">No data available.</td>
-                </tr>
-              <?php endif; ?>
-            </tbody>
-          </table>
+            <!-- Patient Table -->
+            <table border="1" class="table" id="nurseryOwnersTable">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Contact Number</th>
+                        <th>Address</th>
+                        <th>Birthdate</th>
+                        <th>Civil Status</th>
+                        <th>Sex</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <?php if (!empty($patients)): ?>
+                        <?php foreach ($patients as $patient): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($patient['full_name']); ?></td>
+                                <td><?php echo htmlspecialchars($patient['phone_number']); ?></td>
+                                <td><?php echo htmlspecialchars($patient['purok']); ?></td>
+                                <td>
+                                  <?php 
+                                      // Assuming $patient['birthdate'] is in the format 'YYYY-MM-DD' (e.g., '2024-09-16')
+                                      $birthdate = new DateTime($patient['birthdate']);
+                                      echo $birthdate->format('F j, Y'); // Outputs: September 16, 2024
+                                  ?>
+                              </td>
+
+                                <td><?php echo htmlspecialchars($patient['civil_status']); ?></td>
+                                <td><?php echo htmlspecialchars($patient['sex']); ?></td>
+                                <td>
+                                    <div class="d-flex justify-content-start">
+                                        <a class="btn btn-outline-info" href="update.php?PatientID=<?php echo htmlspecialchars($patient['patient_id']); ?>">Update</a>
+                                        <button class="btn btn-outline-danger mx-1" data-id="<?php echo htmlspecialchars($patient['patient_id']); ?>" onclick="setDeleteId(this)">Delete</button>
+                                        <a class="btn btn-outline-primary" href="patient_history.php?PatientID=<?php echo htmlspecialchars($patient['patient_id']); ?>">History</a>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="8" class="text-center">No records found.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
         </div>
-      </div>
+        <div class="d-flex justify-content-end">
+            <!-- Pagination -->
+            <nav>
+                <ul class="pagination justify-content-center" id="pagination">
+                    <!-- JavaScript will dynamically populate this -->
+                </ul>
+            </nav>
+        </div>
+       
     </div>
-
-  </div>
-
    
 
 <!-- Modal HTML (Bootstrap 5.3) -->
@@ -182,74 +195,6 @@ $getPurok = $patientServices->getPurokData();
         renderTable(1);
         renderPagination();
     });
-
-
-    document.addEventListener("DOMContentLoaded", function () {
-        // Fetch Purok Data from PHP
-        const purokData = <?php echo json_encode($getPurok); ?>;
-        const purokLabels = purokData.map(item => item.purok);
-        const purokCounts = purokData.map(item => parseInt(item.purok_count));
-
-        // Fetch Diagnosis Data from PHP
-        const diagnosisData = <?php echo json_encode($getDiagnosis); ?>;
-        const diagnosisLabels = diagnosisData.map(item => item.diagnosis);
-        const diagnosisCounts = diagnosisData.map(item => parseInt(item.diagnosis_count));
-
-        // Create the Purok (Higher Cases) Line Chart
-        const higherCasesCtx = document.getElementById('higherCases').getContext('2d');
-        const higherCases = new Chart(higherCasesCtx, {
-            type: 'line',
-            data: {
-                labels: purokLabels,
-                datasets: [{
-                    label: 'Higher Cases by Purok',
-                    data: purokCounts,
-                    backgroundColor: 'rgba(219, 31, 131, 0.2)', // Light pink
-                    borderColor: 'rgba(219, 31, 131, 1)', // Dark pink
-                    borderWidth: 2,
-                    fill: true, // Fill under the line
-                    tension: 0.3 // Smooth the line
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        // Create the Diagnosis Cases Bar Chart
-        const typesDiagnosisCtx = document.getElementById('typesDiagnosis').getContext('2d');
-        const typesDiagnosis = new Chart(typesDiagnosisCtx, {
-            type: 'line',
-            data: {
-                labels: diagnosisLabels,
-                datasets: [{
-                    label: 'Diagnosis Cases',
-                    data: diagnosisCounts,
-                    backgroundColor: 'rgba(219, 31, 34, 0.2)', // Light red
-                    borderColor: 'rgba(219, 31, 34, 1)', // Dark red
-                    borderWidth: 2,
-                    fill: true // Fill under the bars
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    });
-
-
 
   window.onload = function() {
     // Check if there is a success or error message in the URL

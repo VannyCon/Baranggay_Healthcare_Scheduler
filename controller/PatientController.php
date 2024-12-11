@@ -125,10 +125,10 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
     $result = $patientServices->delete($patientID);
     
     if ($result) {
-        header("Location: index.php?success=Patient deleted successfully");
+        header("Location: patient.php?success=Patient deleted successfully");
     } else {
         error_log("Deletion failed for ID: $id");
-        header("Location: index.php");
+        header("Location: patient.php");
     }
 // THIS PART NEED ACTION THEN PERFORM EITHER CREATE AND UPDATE
 }else if (isset($_POST['action'])) 
@@ -141,10 +141,17 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
     $lname = $patientServices->clean('lname', 'post');
     $birthdate = $patientServices->clean('birthdate', 'post');
     $purok = $_POST['purok'];
-    $address = $patientServices->clean('address', 'post');
+    $province = $patientServices->clean('province', 'post');
+    $city = $patientServices->clean('city', 'post');
+    $baranggay = $patientServices->clean('baranggay', 'post');
+
+    $address = $province.",".$city.",".$baranggay;
     $phone_number = $_POST['phone_number'];
     $civil_status = $patientServices->clean('civil_status', 'post');
     $sex = $patientServices->clean('sex', 'post');
+    $religion = $patientServices->clean('religion', 'post');
+    $occupation = $patientServices->clean('occupation', 'post');
+    $guardian = $patientServices->clean('guardian', 'post');
 
     // Vital Signs
     $blood_pressure = $patientServices->clean('blood_pressure', 'post');
@@ -162,11 +169,12 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
     $medication = $patientServices->clean('medication', 'post');
     $laboratory_findings = $patientServices->clean('laboratory_findings', 'post');
 
+
     //IF CREATE
     if($_POST['action'] == 'create') {
         // Call create method to add the new patient
-        $status = $patientServices->create($refferal_for,
-            $fname, $mname, $lname, $birthdate, $purok, $address, $phone_number, $civil_status, $sex, 
+        $status = $patientServices->create(
+            $refferal_for, $fname, $mname, $lname, $birthdate, $purok, $address, $phone_number, $civil_status, $sex, $religion, $occupation, $guardian,
             $blood_pressure, $temperature, $pulse_rate, $respiratory_rate, $weight, $height, 
             $cho_schedule, $name_of_attending_provider, $type_of_consultation, 
             $diagnosis, $medication, $laboratory_findings, $admin_name
@@ -189,12 +197,12 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
     }else if($_POST['action'] == 'update' ) { 
          // Call create method to add the new patient
          $status = $patientServices->update(
-            $patientID, $fname, $mname, $lname, $birthdate, $purok, $phone_number, 
-            $civil_status, $sex
+            $patientID, $fname, $mname, $lname, $birthdate, $purok, $address, $phone_number, 
+            $civil_status, $sex, $religion, $occupation, $guardian,
         );
         if($status == true){
             // Redirect to index.php
-            header("Location: index.php?success=Successfully Updated!"); 
+            header("Location: patient.php?success=Successfully Updated!"); 
             exit(); // Important to stop the script after the redirection
         }else{
             header("Location: create.php"); 
@@ -230,7 +238,7 @@ if($title = "patientServices Update"){
             // Optionally, you can redirect or show a success message after creation
             if($owners == true){
                 // Redirect to index.php
-                header("Location: index.php"); 
+                header("Location: patient.php"); 
                 exit(); // Important to stop the script after the redirection
             }else{
                 header("Location: create.php"); 

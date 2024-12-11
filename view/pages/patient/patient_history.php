@@ -69,7 +69,18 @@ if (session_status() === PHP_SESSION_NONE) {
               </p>
               <p class="text-success"><span class="text-dark">Civil Status : </span><?php echo htmlspecialchars($specificPatient['civil_status']); ?></p>
               <p class="text-success"><span class="text-dark">Sex : </span><?php echo htmlspecialchars($specificPatient['sex']); ?></p>
-            </div>
+              <p class="text-success"><span class="text-dark">Religion : </span><?php echo htmlspecialchars($specificPatient['religion']); ?></p>
+              <p class="text-success"><span class="text-dark">Occupation : </span><?php echo htmlspecialchars($specificPatient['occupation']); ?></p>
+              <?php 
+              if ($specificPatient['guardian'] == "") {
+                  echo "";
+              } else {
+                echo "<p class='text-success'><span class='text-dark'>Guardian:</span> " . htmlspecialchars($specificPatient['guardian']) . "</p>";
+
+              }
+              ?>
+
+             </div>
           </div>
         </div>
       </div>

@@ -9,7 +9,7 @@
 <div class="container mt-5">
 <a href="index.php" class="btn btn-danger my-2"> Back </a>
     <h2 class="mb-4">Refferal Form</h2>
-    <form action="" method="POST">
+    <form action="" method="POST" id="createForm">
 
     <div class="card mb-4">
             <div class="card-header">Choose Refferal Type</div>
@@ -64,17 +64,39 @@
                         <input type="number" class="form-control" id="age" name="age" required readonly>
                     </div>
                 </div>
-
                 <div class="mb-3">
-                    <label for="age" class="form-label">Address</label>
+                    <label for="age" class="form-label">Province</label>
+                    <select class="form-select" name="province" id="Province" required>
+                        <option value="" disabled selected>Select a Province</option>
+                        <option value="Negros Occidental">Negros Occidental</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="city" class="form-label">City</label>
+                    <select class="form-select" name="city" id="City" required>
+                        <option value="" disabled selected>Select a City</option>
+                        <option value="Escalante City">Escalante City</option>
+                        
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="Barangay" class="form-label">Barangay</label>
+                    <select class="form-select" name="baranggay" id="Barangay" required>
+                        <option value="" disabled selected>Select a Barangay</option>
+                        <option value="Brgy. JonobJonob">Brgy. JonobJonob</option>
+                        
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="age" class="form-label">Purok</label>
                     <select class="form-select" name="purok" id="Purok" required>
                         <option value="" disabled selected>Select a Purok</option>
-                        <option value="Prk. Napungalan 1 Brgy. JonobJonob Escalante City Negros Occidental">Prk. Napungalan 1 Brgy. JonobJonob Escalante City Negros Occidental</option>
-                        <option value="Prk. Napungalan 2 Brgy. JonobJonob Escalante City Negros Occidental">Prk. Napungalan 2 Brgy. JonobJonob Escalante City Negros Occidental</option>
-                        <option value="So. Golden Rosary Brgy. JonobJonob Escalante City Negros Occidental">So. Golden Rosary Brgy. JonobJonob Escalante City Negros Occidental</option>
-                        <option value="Habitat Homes Brgy. JonobJonob Escalante City Negros Occidental">Habitat Homes Brgy. JonobJonob Escalante City Negros Occidental</option>
-                        <option value="Prk. Mahogany Brgy. JonobJonob Escalante City Negros Occidental">Prk. Mahogany Brgy. JonobJonob Escalante City Negros Occidental</option>
-                        <option value="Prk. Sambag Brgy. JonobJonob Escalante City Negros Occidental">Prk. Sambag Brgy. JonobJonob Escalante City Negros Occidental</option>
+                        <option value="Prk. Napungalan 1">Prk. Napungalan 1</option>
+                        <option value="Prk. Napungalan 2">Prk. Napungalan 2</option>
+                        <option value="So. Golden Rosary">So. Golden Rosary</option>
+                        <option value="Habitat Homes">Habitat Homes</option>
+                        <option value="Prk. Mahogany">Prk. Mahogany</option>
+                        <option value="Prk. Sambag">Prk. Sambag</option>
                     </select>
                 </div>
                 <!-- <div class="mb-3">
@@ -102,6 +124,22 @@
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="religion" class="form-label">Religion</label>
+                        <input type="text" class="form-control" id="religion" name="religion" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="occupation" class="form-label">Occupation</label>
+                        <input type="text" class="form-control" id="occupation" name="occupation" required>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label for="guardian" class="form-label">Guardian <span class="text-danger">(optional)</span></label>
+                        <input type="text" class="form-control" id="guardian" name="guardian">
                     </div>
                 </div>
             </div>
@@ -168,8 +206,28 @@
                 </div>
                 <div class="mb-3">
                     <label for="diagnosis" class="form-label">Diagnosis</label>
-                    <textarea class="form-control" id="diagnosis" name="diagnosis" rows="3" ></textarea>
+                    <select class="form-select" id="diagnosis" name="diagnosis" required>
+                        <option value="" disabled selected>Select a Diagnosis</option>
+                        <option value="Hypertension">Hypertension</option>
+                        <option value="Diabetes">Diabetes</option>
+                        <option value="Asthma">Asthma</option>
+                        <option value="Pneumonia">Pneumonia</option>
+                        <option value="Tuberculosis">Tuberculosis</option>
+                        <option value="Bronchitis">Bronchitis</option>
+                        <option value="Chronic Kidney Disease">Chronic Kidney Disease</option>
+                        <option value="Cancer">Cancer</option>
+                        <option value="Anemia">Anemia</option>
+                        <option value="Influenza">Influenza</option>
+                        <option value="Fever">Fever</option>
+                        <option value="Dengue">Dengue</option>
+                        <option value="Diarrhea">Diarrhea</option>
+                        <option value="Vomiting">Vomiting</option>
+                        <option value="Headache">Headache</option>
+                        <option value="Stomach Ache">Stomach Ache</option>
+                    </select>
                 </div>
+
+
                 <div class="mb-3">
                     <label for="medication" class="form-label">Medication</label>
                     <textarea class="form-control" id="medication" name="medication" rows="3" ></textarea>
@@ -182,35 +240,175 @@
         </div>
         <input type="hidden" name="action" value="create">
         <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <!-- Button to trigger the modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#previewModal">
+        Preview Referral Form
+        </button>
+
     </form>
 </div>
 
-<!-- Modal HTML (Bootstrap 5.3) -->
-<div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+
+<!-- Add this modal for preview -->
+<div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="statusModalLabel">Status</h5>
+        <h5 class="modal-title" id="previewModalLabel">Preview Referral Form</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <?php
-        if (isset($_GET['success'])) {
-          echo "<div class='alert alert-success' role='alert'>" . htmlspecialchars($_GET['success']) . "</div>";
-        }elseif (isset($_GET['error'])) {
-            echo "<div class='alert alert-danger' role='alert'>" . htmlspecialchars($_GET['error']) . "</div>";
-        }
-        ?>
-      </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h6 class="border-bottom pb-2">Referral Type</h6>
+              <p id="preview_refferal_for"></p>
+            </div>
+            
+            <div class="col-12 mt-3">
+              <h6 class="border-bottom pb-2">Patient Information</h6>
+              <div class="row">
+                <div class="col-md-4">
+                  <p><strong>First Name:</strong> <span id="preview_fname"></span></p>
+                </div>
+                <div class="col-md-4">
+                  <p><strong>Middle Name:</strong> <span id="preview_mname"></span></p>
+                </div>
+                <div class="col-md-4">
+                  <p><strong>Last Name:</strong> <span id="preview_lname"></span></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <p><strong>Birthdate:</strong> <span id="preview_birthdate"></span></p>
+                </div>
+                <div class="col-md-6">
+                  <p><strong>Age:</strong> <span id="preview_age"></span></p>
+                </div>
+              </div>
+              <p><strong>Province:</strong> <span id="preview_province"></span></p>
+              <p><strong>City:</strong> <span id="preview_city"></span></p>
+              <p><strong>Barangay:</strong> <span id="preview_barangay"></span></p>
+              <p><strong>Purok:</strong> <span id="preview_purok"></span></p>
+              <p><strong>Contact Number:</strong> <span id="preview_phone_number"></span></p>
+              <p><strong>Civil Status:</strong> <span id="preview_civil_status"></span></p>
+              <p><strong>Sex:</strong> <span id="preview_sex"></span></p>
+              <div class="row">
+                <div class="col-md-6">
+                  <p><strong>Religion:</strong> <span id="preview_religion"></span></p>
+                </div>
+                <div class="col-md-6">
+                  <p><strong>Occupation:</strong> <span id="preview_occupation"></span></p>
+                </div>
+              </div>
+              <p><strong>Guardian:</strong> <span id="preview_guardian"></span></p>
 
+            <div class="col-12 mt-3">
+              <h6 class="border-bottom pb-2">Vital Signs</h6>
+              <div class="row">
+                <div class="col-md-6">
+                  <p><strong>Blood Pressure:</strong> <span id="preview_blood_pressure"></span></p>
+                  <p><strong>Temperature:</strong> <span id="preview_temperature"></span> °C</p>
+                </div>
+                <div class="col-md-6">
+                  <p><strong>Pulse Rate:</strong> <span id="preview_pulse_rate"></span> BPM</p>
+                  <p><strong>Respiratory Rate:</strong> <span id="preview_respiratory_rate"></span></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <p><strong>Weight:</strong> <span id="preview_weight"></span> kg</p>
+                </div>
+                <div class="col-md-6">
+                  <p><strong>Height:</strong> <span id="preview_height"></span> cm</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 mt-3">
+              <h6 class="border-bottom pb-2">Findings</h6>
+              <p><strong>CHO Schedule:</strong> <span id="preview_cho_schedule"></span></p>
+              <p><strong>Attending Provider:</strong> <span id="preview_name_of_attending_provider"></span></p>
+              <p><strong>Type of Consultation:</strong> <span id="preview_type_of_consultation"></span></p>
+              <p><strong>Diagnosis:</strong> <span id="preview_diagnosis"></span></p>
+              <p><strong>Medication:</strong> <span id="preview_medication"></span></p>
+              <p><strong>Laboratory Findings:</strong> <span id="preview_laboratory_findings"></span></p>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Edit</button>
+        <button type="button" class="btn btn-primary" id="confirmSubmit">Confirm Submit</button>
       </div>
     </div>
   </div>
 </div>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const previewButton = document.querySelector('[data-bs-target="#previewModal"]');
+    const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+    
+    // Function to update the preview modal with the form values
+    function updatePreviewModal() {
+        // Referral Type
+        const referralSelect = document.getElementById('refferal_for');
+        document.getElementById('preview_refferal_for').textContent = referralSelect.options[referralSelect.selectedIndex].text;
+
+        // Patient Information
+        document.getElementById('preview_fname').textContent = document.getElementById('fname').value;
+        document.getElementById('preview_mname').textContent = document.getElementById('mname').value;
+        document.getElementById('preview_lname').textContent = document.getElementById('lname').value;
+        document.getElementById('preview_birthdate').textContent = document.getElementById('birthdate').value;
+        document.getElementById('preview_age').textContent = document.getElementById('age').value;
+
+        // Province, City, Barangay, Purok
+        document.getElementById('preview_province').textContent = document.getElementById('Province').value;
+        document.getElementById('preview_city').textContent = document.getElementById('City').value;
+        document.getElementById('preview_barangay').textContent = document.getElementById('Barangay').value;
+        document.getElementById('preview_purok').textContent = document.getElementById('Purok').value;
+
+        document.getElementById('preview_phone_number').textContent = document.getElementById('phone_number').value;
+
+        // Civil Status & Sex
+        document.getElementById('preview_civil_status').textContent = document.getElementById('civil_status').value;
+        document.getElementById('preview_sex').textContent = document.getElementById('sex').value;
+
+        // Civil Status & Sex
+        document.getElementById('preview_religion').textContent = document.getElementById('religion').value;
+        document.getElementById('preview_occupation').textContent = document.getElementById('occupation').value;
+        document.getElementById('preview_guardian').textContent = document.getElementById('guardian').value;
+        // Vital Signs
+        document.getElementById('preview_blood_pressure').textContent = document.getElementById('blood_pressure').value;
+        document.getElementById('preview_temperature').textContent = document.getElementById('temperature').value;
+        document.getElementById('preview_pulse_rate').textContent = document.getElementById('pulse_rate').value;
+        document.getElementById('preview_respiratory_rate').textContent = document.getElementById('respiratory_rate').value;
+        document.getElementById('preview_weight').textContent = document.getElementById('weight').value;
+        document.getElementById('preview_height').textContent = document.getElementById('height').value;
+
+        // Findings Section
+        document.getElementById('preview_cho_schedule').textContent = document.getElementById('cho_schedule').value;
+        document.getElementById('preview_name_of_attending_provider').textContent = document.getElementById('name_of_attending_provider').value;
+        document.getElementById('preview_type_of_consultation').textContent = document.getElementById('type_of_consultation').value;
+        document.getElementById('preview_diagnosis').textContent = document.getElementById('diagnosis').value;
+        document.getElementById('preview_medication').textContent = document.getElementById('medication').value;
+        document.getElementById('preview_laboratory_findings').textContent = document.getElementById('laboratory_findings').value;
+    }
+
+    // When the preview button is clicked, update the modal
+    previewButton.addEventListener('click', function() {
+        updatePreviewModal();
+        previewModal.show();
+    });
+
+    // Optional: If you want to handle form submission after preview
+    document.getElementById('confirmSubmit').addEventListener('click', function () {
+        document.getElementById('createForm').submit();
+    });// or whatever the submit button's id is
+});
+
+</script>
 <script>
     function updateAge() {
         const birthdate = document.getElementById("birthdate").value;

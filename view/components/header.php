@@ -33,9 +33,13 @@
                                 <li class='nav-item'>
                                     <a class='nav-link ms-3' href='../patient/index.php'>Dashboard</a>
                                 </li>
+                                 <li class='nav-item'>
+                                    <a class='nav-link ms-3' href='../patient/patient.php'>Patients</a>
+                                </li>
                                 <li class='nav-item'>
                                     <a class='nav-link ms-3' href='../dashboard/accounts.php'>Account</a>
                                 </li>
+                                
                                 <li class='nav-item'>
                                   <form action='' method='post' class='ms-3'>
                                         <input type='hidden' name='action' value='logout'>

@@ -83,7 +83,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="name_of_attending_provider" class="form-label">Attending Provider</label>
-                    <input type="text" class="form-control" value="<?php echo htmlspecialchars($specificHistory['name_of_attending_provider']); ?>" id="name_of_attending_provider" name="name_of_attending_provider" required>
+                    <input type="text" class="form-control" value="<?php echo htmlspecialchars($specificHistory['name_of_attending_provider']); ?>" id="name_of_attending_provider" name="name_of_attending_provider" readonly required>
                 </div>
 
                 <div class="mb-3">
@@ -92,8 +92,27 @@
                 </div>
                 <div class="mb-3">
                     <label for="diagnosis" class="form-label">Diagnosis</label>
-                    <textarea class="form-control" id="diagnosis" name="diagnosis" rows="3" ><?php echo htmlspecialchars($specificHistory['diagnosis']); ?></textarea>
+                    <select class="form-select" id="diagnosis" name="diagnosis" required>
+                        <option value="" disabled <?php echo empty($specificHistory['diagnosis']) ? 'selected' : ''; ?>>Select a Diagnosis</option>
+                        <option value="Hypertension" <?php echo $specificHistory['diagnosis'] == 'Hypertension' ? 'selected' : ''; ?>>Hypertension</option>
+                        <option value="Diabetes" <?php echo $specificHistory['diagnosis'] == 'Diabetes' ? 'selected' : ''; ?>>Diabetes</option>
+                        <option value="Asthma" <?php echo $specificHistory['diagnosis'] == 'Asthma' ? 'selected' : ''; ?>>Asthma</option>
+                        <option value="Pneumonia" <?php echo $specificHistory['diagnosis'] == 'Pneumonia' ? 'selected' : ''; ?>>Pneumonia</option>
+                        <option value="Tuberculosis" <?php echo $specificHistory['diagnosis'] == 'Tuberculosis' ? 'selected' : ''; ?>>Tuberculosis</option>
+                        <option value="Bronchitis" <?php echo $specificHistory['diagnosis'] == 'Bronchitis' ? 'selected' : ''; ?>>Bronchitis</option>
+                        <option value="Chronic Kidney Disease" <?php echo $specificHistory['diagnosis'] == 'Chronic Kidney Disease' ? 'selected' : ''; ?>>Chronic Kidney Disease</option>
+                        <option value="Cancer" <?php echo $specificHistory['diagnosis'] == 'Cancer' ? 'selected' : ''; ?>>Cancer</option>
+                        <option value="Anemia" <?php echo $specificHistory['diagnosis'] == 'Anemia' ? 'selected' : ''; ?>>Anemia</option>
+                        <option value="Influenza" <?php echo $specificHistory['diagnosis'] == 'Influenza' ? 'selected' : ''; ?>>Influenza</option>
+                        <option value="Fever" <?php echo $specificHistory['diagnosis'] == 'Fever' ? 'selected' : ''; ?>>Fever</option>
+                        <option value="Dengue" <?php echo $specificHistory['diagnosis'] == 'Dengue' ? 'selected' : ''; ?>>Dengue</option>
+                        <option value="Diarrhea" <?php echo $specificHistory['diagnosis'] == 'Diarrhea' ? 'selected' : ''; ?>>Diarrhea</option>
+                        <option value="Vomiting" <?php echo $specificHistory['diagnosis'] == 'Vomiting' ? 'selected' : ''; ?>>Vomiting</option>
+                        <option value="Headache" <?php echo $specificHistory['diagnosis'] == 'Headache' ? 'selected' : ''; ?>>Headache</option>
+                        <option value="Stomach Ache" <?php echo $specificHistory['diagnosis'] == 'Stomach Ache' ? 'selected' : ''; ?>>Stomach Ache</option>
+                    </select>
                 </div>
+
                 <div class="mb-3">
                     <label for="medication" class="form-label">Medication</label>
                     <input type="text" class="form-control" value="<?php echo htmlspecialchars($specificHistory['medication']); ?>" id="medication" name="medication" >
